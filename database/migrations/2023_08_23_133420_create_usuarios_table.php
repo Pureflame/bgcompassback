@@ -4,6 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
+use Illuminate\Support\Facades\DB;
+
 return new class extends Migration
 {
     /**
@@ -13,15 +15,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('personal_access_tokens', function (Blueprint $table) {
+        Schema::create('usuarios', function (Blueprint $table) {
             $table->id();
-            $table->morphs('tokenable');
-            $table->string('name');
-            $table->string('token', 64)->unique();
-            $table->text('abilities')->nullable();
-            $table->timestamp('last_used_at')->nullable();
+
+            $table->string('correo_usuario')->unique();
+            $table->string('nombre_usuario');
+            $table->string('contrasenha_usuario');
             $table->timestamps();
         });
+
+        DB::unprepared('ALTER TABLE `usuarios` DROP PRIMARY KEY, ADD PRIMARY KEY (  `id` ,  `correo_usuario` )');
     }
 
     /**
@@ -31,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('personal_access_tokens');
+        Schema::dropIfExists('usuarios');
     }
 };

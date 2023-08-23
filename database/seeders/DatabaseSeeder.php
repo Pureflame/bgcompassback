@@ -14,6 +14,25 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        $this->call([
+            AdministradorTableSeeder::class,
+            UsuarioTableSeeder::class,
+
+            //ClaseDescentTableSeeder::class,
+            //ConversacionDescentTableSeeder::class,
+            //EquipamientoDescentTableSeeder::class,
+            //HeroeDescentTableSeeder::class,
+            MisionDescentTableSeeder::class,
+            CartaOverlordDescentTableSeeder::class,
+            
+            //ClasePartyDescentTableSeeder::class,
+            //EquipamientoPartyDescentTableSeeder::class,
+            MazoOverlordDescentTableSeeder::class,
+            //MensajeDescentTableSeeder::class,
+            
+            DescentTableSeeder::class,
+
+            //Party_DescentTableSeeder::class
+        ]);
     }
 }
