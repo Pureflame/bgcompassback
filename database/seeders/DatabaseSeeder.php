@@ -18,21 +18,25 @@ class DatabaseSeeder extends Seeder
             AdministradorTableSeeder::class,
             UsuarioTableSeeder::class,
 
-            //ClaseDescentTableSeeder::class,
+            ClaseDescentTableSeeder::class,
             //ConversacionDescentTableSeeder::class,
-            //EquipamientoDescentTableSeeder::class,
-            //HeroeDescentTableSeeder::class,
+            EquipamientoDescentTableSeeder::class,
+            HeroeDescentTableSeeder::class,
             MisionDescentTableSeeder::class,
             CartaOverlordDescentTableSeeder::class,
+
+            DescentTableSeeder::class,
             
-            //ClasePartyDescentTableSeeder::class,
-            //EquipamientoPartyDescentTableSeeder::class,
             MazoOverlordDescentTableSeeder::class,
+            PartyDescentTableSeeder::class,
+
+            ClasePartyDescentTableSeeder::class,
+            EquipamientoPartyDescentTableSeeder::class,
             //MensajeDescentTableSeeder::class,
             
-            DescentTableSeeder::class,
+            
 
-            //Party_DescentTableSeeder::class
+            
         ]);
     }
 }

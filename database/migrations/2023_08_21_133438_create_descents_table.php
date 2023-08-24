@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('correo_usuario');
             $table->foreign('correo_usuario')->references('correo_usuario')->on('usuarios')->noActionOnDelete();
 
-            $table->unsignedBigInteger('id_mision');
-            $table->foreign('id_mision')->references('id')->on('misiones_descent');
+            $table->unsignedBigInteger('id_mision_dc');
+            $table->foreign('id_mision_dc')->references('id')->on('mision_dcs');
 
             //$table->timestamps();
         });

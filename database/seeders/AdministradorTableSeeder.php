@@ -27,7 +27,7 @@ class AdministradorTableSeeder extends Seeder
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
-        DB::table('admines')->insert([
+        DB::table('administradores')->insert([
             "dni_admin"=>"56347812D",
             "nombre_admin"=>"Alberto",
             "apellidos_admin"=>"Conde",
@@ -37,7 +37,7 @@ class AdministradorTableSeeder extends Seeder
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
-        DB::table('admines')->insert([
+        DB::table('administradores')->insert([
             "dni_admin"=>"87654321S",
             "nombre_admin"=>"Veronica",
             "apellidos_admin"=>"Rascado",

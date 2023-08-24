@@ -23,7 +23,7 @@ class CartaOverlordDc extends Model
     ];
 
     // Para que no utilice las columnas de “updated_at” y “created_at”
-    public $timestamps = true;
+    public $timestamps = false;
 
     // Para evitar que la peticion use un nombre erroneo de tabla por el plural de las migraciones
     public $table = "carta_overlord_dcs";

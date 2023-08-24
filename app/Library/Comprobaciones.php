@@ -10,7 +10,7 @@ class Comprobaciones {
     // Comprueba que el usuario actual logueado sea un administrador
     public function checkActualUserIsAdmin(){
         
-        if(DB::table('administradores')->select('administradores.dni_administrador')->where('dni_administrador', auth()->user()->dni_administrador)->first() != null){
+        if(DB::table('administradores')->select('administradores.dni_admin')->where('dni_admin', auth()->user()->dni_admin)->first() != null){
             return true;
         }
         else{
@@ -38,7 +38,7 @@ class Comprobaciones {
     // Comprueba que el administrador no estea repetido
     public function checkDNIAdmin($requestDNI){
         
-        if(DB::table('administradores')->select('administradores.dni_administrador')->where('dni_administrador', $requestDNI)->first() != null){
+        if(DB::table('administradores')->select('administradores.dni_admin')->where('dni_admin', $requestDNI)->first() != null){
             return true;
         }
         else{
@@ -53,7 +53,7 @@ class Comprobaciones {
     // Comprueba que el correo del administrador exista
     public function checkCorreoAdmin($requestEmail){
 
-        if(DB::table('administradores')->select('administradores.correo_administrador')->where('correo_administrador', $requestEmail)->first() != null){
+        if(DB::table('administradores')->select('administradores.correo_admin')->where('correo_admin', $requestEmail)->first() != null){
             return true;
         }
         else{

@@ -110,7 +110,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 
 // Usuario - Eliminar Partida de Descent(y todo lo que contiene)
 Route::group(['middleware' => ['auth:sanctum']], function(){
-    Route::delete('descent/partida/{id}', [DescentPartidaController::class, 'eliminarPartidaDescent'])->middleware('')->name('descent.partida.eliminar');
+    Route::delete('descent/partida/{id}', [DescentPartidaController::class, 'eliminarPartidaDescent'])->name('descent.partida.eliminar');
 });
 
 
@@ -158,7 +158,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 // Usuario - Eliminar Dato de Héroes de Partida de Descent
 //      -- Héroe Seleccionado / Clase de Héroe / Equipamiento del Héroe
 Route::group(['middleware' => ['auth:sanctum']], function(){
-    Route::delete('descent/{idparty}/heroes', [DescentPartidaController::class, 'eliminarHeroePartidaDescent'])->middleware('')->name('descent.partida.eliminar.heroe');
+    Route::delete('descent/{idparty}/heroes', [DescentPartidaController::class, 'eliminarHeroePartidaDescent'])->name('descent.partida.eliminar.heroe');
 });
 
 ///////////////////////////////////////////////////////////////////////

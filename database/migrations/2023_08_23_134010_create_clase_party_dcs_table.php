@@ -13,9 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('clase_party_dcs', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::create('clase_dc_party_dc', function (Blueprint $table) {
+     
+            $table->unsignedBigInteger('party_dc_id');
+            $table->unsignedBigInteger('clase_dc_id');
+
+            $table->foreign('party_dc_id')->references('id')->on('party_dcs')->cascadeOnDelete();
+            $table->foreign('clase_dc_id')->references('id')->on('clase_dcs');
+            //$table->timestamps();
         });
     }
 
@@ -26,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('clase_party_dcs');
+        Schema::dropIfExists('clase_dc_party_dc');
     }
 };

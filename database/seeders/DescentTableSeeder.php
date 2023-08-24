@@ -20,8 +20,7 @@ class DescentTableSeeder extends Seeder
             "nombre_partida"=>"Partida Descent Test",            
             "oro"=>"0",
             "correo_usuario"=>"joseuser@gmail.com",
-            "id_mision_dc"=>"1",
-            "id_overlord_dc"=>"1",    
+            "id_mision_dc"=>"1",   
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
     }

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('correo_usuario')->unique();
             $table->string('nombre_usuario');
             $table->string('contrasenha_usuario');
-            $table->timestamps();
+            //$table->timestamps();
         });
 
         DB::unprepared('ALTER TABLE `usuarios` DROP PRIMARY KEY, ADD PRIMARY KEY (  `id` ,  `correo_usuario` )');

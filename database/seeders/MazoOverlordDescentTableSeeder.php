@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\CartaOverlordDc;
+use App\Models\Descent;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -16,36 +18,36 @@ class MazoOverlordDescentTableSeeder extends Seeder
      */
     public function run()
     {
-        /*
-        $overlord = Overlord_Descent::find(1);
+    /*
+        $overlord = Descent::find(1);
         $cartas = [4,5,6,7];
-        foreach(Carta_Overlord_Descent::all() as $carta){
+        foreach(CartaOverlordDc::all() as $carta){
             $overlord->cartas()->attach($carta->id);
         }
-        */
+      */  
         
 
-        DB::table('mazo_overlord_dcs')->insert([
-            "id_overlord_dc"=>"1",            
-            "id_carta_overlord_dc"=>"4",
+        DB::table('carta_overlord_dc_descent')->insert([
+            "carta_overlord_dc_id"=>"4",
+            "descent_id"=>"1", 
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
-        DB::table('mazo_overlord_dcs')->insert([
-            "id_overlord_dc"=>"1",            
-            "id_carta_overlord_dc"=>"5",
+        DB::table('carta_overlord_dc_descent')->insert([
+            "carta_overlord_dc_id"=>"5",
+            "descent_id"=>"1", 
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
-        DB::table('mazo_overlord_dcs')->insert([
-            "id_overlord_dc"=>"1",            
-            "id_carta_overlord_dc"=>"6",
+        DB::table('carta_overlord_dc_descent')->insert([
+            "carta_overlord_dc_id"=>"6",
+            "descent_id"=>"1", 
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
-        DB::table('mazo_overlord_dcs')->insert([
-            "id_overlord_dc"=>"1",            
-            "id_carta_overlord_dc"=>"7",
+        DB::table('carta_overlord_dc_descent')->insert([
+            "carta_overlord_dc_id"=>"7",
+            "descent_id"=>"1", 
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
         
