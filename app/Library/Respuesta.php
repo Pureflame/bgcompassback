@@ -108,4 +108,12 @@ class Respuesta {
         $respuesta->setMensaje(self::TXT_ERROR_GENERAL);
     }
 
+
+
+
+    public function setRespuestaMaximoHeroesAlcanzado($respuesta) : void{
+        $respuesta->setEstadoCodigo(self::ERROR_GENERAL);
+        $respuesta->setMensaje("Maximo de héroes alcanzado, no se pueden crear más");
+    }
+
 }

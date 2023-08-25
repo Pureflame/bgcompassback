@@ -65,6 +65,8 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'login.validate' => \App\Http\Middleware\LoginValidate::class,
         'registerAdmin.validate' => \App\Http\Middleware\Register\RegisterAdminValidate::class,
-        'registerUsuario.validate' => \App\Http\Middleware\Register\RegisterUsuarioValidate::class
+        'registerUsuario.validate' => \App\Http\Middleware\Register\RegisterUsuarioValidate::class,
+        'descentGeneral.validate' => \App\Http\Middleware\partidaGeneralDescentValidate::class,
+        'descentHeroe.validate' => \App\Http\Middleware\partidaHeroeDescentValidate::class
     ];
 }

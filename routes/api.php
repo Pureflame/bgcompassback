@@ -98,54 +98,39 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 
 // Usuario - Crear Partida de Descent
 Route::group(['middleware' => ['auth:sanctum']], function(){
-    Route::post('descent/partida', [DescentPartidaController::class, 'crearPartidaDescent'])->middleware('')->name('descent.partida.crear');
+    Route::post('descent/partida', [DescentPartidaController::class, 'crearPartidaDescent'])->name('descent.partida.crear');
 });
 
 // Usuario - Listar Partidas de Descent
 Route::group(['middleware' => ['auth:sanctum']], function(){
-    Route::post('descent/partidas/{id}', [DescentPartidaController::class, 'listarPartidasDescent'])->middleware('')->name('descent.partida.listar.partidas');
+    Route::get('descent/partidas/{id}', [DescentPartidaController::class, 'listarPartidasDescent'])->name('descent.partida.listar.partidas');
 });
 
-// Usuario - ¿Editar Partida de Descent?
-
-// Usuario - Eliminar Partida de Descent(y todo lo que contiene)
+// Usuario - Eliminar Partida de Descent (y todo lo que contiene)
 Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::delete('descent/partida/{id}', [DescentPartidaController::class, 'eliminarPartidaDescent'])->name('descent.partida.eliminar');
 });
 
 
-/* Datos: 
-    - Mision actual
-    - Mazo de Cartas de Overlord
-    - Oro actual del grupo
-    - Heroes:
-        -- Héroe Seleccionado
-        -- Clase de Héroe
-        -- Equipamiento del Héroe
-*/
-
-// Usuario - Añadir/Actualizar Dato a Partida de Descent
-//  - Mision actual, Mazo de Cartas de Overlord y Oro actual del grupo (comparten un formulario)
-Route::group(['middleware' => ['auth:sanctum']], function(){
-    Route::put('descent/{idpartida}/general', [DescentPartidaController::class, 'actualizarGeneralPartidaDescent'])->name('descent.partida.actualizar.general');
-});
-
-
-    Route::put('descent/test', [DescentPartidaController::class, 'testsync'])->name('descent.partida.actualizar.general');
-
-
-//  - Heroes 
-//      -- Héroe Seleccionado / Clase de Héroe / Equipamiento del Héroe
-Route::group(['middleware' => ['auth:sanctum']], function(){
-    Route::put('descent/{idpartida}/heroes/{idheroe}', [DescentPartidaController::class, 'actualizarHeroePartidaDescent'])->middleware('')->name('descent.partida.actualizar.heroe');
-});
-
-
-
-// Usuario - Ver Datos de Partida de Descent
-//  - Mision actual, Mazo de Cartas de Overlord y Oro actual del grupo
+// Usuario - Ver Datos de Partida de Descent (Mision actual, Mazo de Cartas de Overlord y Oro actual del grupo)
 Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('descent/{idpartida}/general', [DescentPartidaController::class, 'verGeneralPartidaDescent'])->name('descent.partida.ver.general');
+});
+
+// Usuario - Añadir/Actualizar Dato a Partida de Descent (Mision actual, Mazo de Cartas de Overlord y Oro actual del grupo)
+Route::group(['middleware' => ['auth:sanctum']], function(){
+    Route::put('descent/{idpartida}/general', [DescentPartidaController::class, 'actualizarGeneralPartidaDescent'])->middleware('descentGeneral.validate')->name('descent.partida.actualizar.general');
+});
+
+
+// Usuario - Crear Heroe Partida de Descent
+Route::group(['middleware' => ['auth:sanctum']], function(){
+    Route::post('descent/{idpartida}/heroes', [DescentPartidaController::class, 'crearHeroePartidaDescent'])->name('descent.partida.crear.heroe');
+});
+
+// Usuario - Actualizar Heroe Partida de Descent
+Route::group(['middleware' => ['auth:sanctum']], function(){
+    Route::put('descent/{idpartida}/heroes/{idheroe}', [DescentPartidaController::class, 'actualizarHeroePartidaDescent'])->middleware('descentHeroe.validate')->name('descent.partida.actualizar.heroe');
 });
 
 //  - Heroes (todos se muestran juntos en una vista, maximo 4)
@@ -153,13 +138,19 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('descent/{idpartida}/heroes', [DescentPartidaController::class, 'verHeroePartidaDescent'])->name('descent.partida.ver.heroes');
 });
 
-
-
 // Usuario - Eliminar Dato de Héroes de Partida de Descent
 //      -- Héroe Seleccionado / Clase de Héroe / Equipamiento del Héroe
 Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::delete('descent/{idparty}/heroes', [DescentPartidaController::class, 'eliminarHeroePartidaDescent'])->name('descent.partida.eliminar.heroe');
 });
+
+
+
+
+Route::put('descent/test', [DescentPartidaController::class, 'testsync'])->name('descent.partida.actualizar.general');
+
+
+
 
 ///////////////////////////////////////////////////////////////////////
 //////////////             DESCENT - FORO                //////////////
