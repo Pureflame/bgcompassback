@@ -69,8 +69,8 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 ///////////////////////////////////////////////////////////////////////
 
 // Menú Principal de Campañas y Foros - Listar Juegos de Mesa 
-Route::get('menu-principal-partidas', [JuegosController::class, 'listarJuegos'])->middleware('')->name('menu.principal.partidas');
-Route::get('menu-principal-foros', [JuegosController::class, 'listarForos'])->middleware('')->name('menu.principal.foros');
+Route::get('menu/partidas', [JuegosController::class, 'listarJuegos'])->middleware('')->name('menu.principal.partidas');
+Route::get('menu/foros', [JuegosController::class, 'listarForos'])->middleware('')->name('menu.principal.foros');
 
 // Usuario Perfil - Listar Partidas creadas de todos los juegos
 Route::group(['middleware' => ['auth:sanctum']], function(){

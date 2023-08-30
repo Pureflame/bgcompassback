@@ -19,6 +19,7 @@ use App\Models\Descent;
 use App\Models\EquipamientoDc;
 use App\Models\HeroeDc;
 use App\Models\MisionDc;
+use App\Models\PartidasJuegos;
 use App\Models\PartyDc;
 use League\CommonMark\Extension\Table\Table;
 
@@ -38,20 +39,22 @@ class DescentPartidaController extends Controller
 
         $respuesta = new Respuesta();
 
+        // nombre_partida, correo_usuario, oro, id_mision_dc
         try{
-
-            $partida = new Descent();
-
+            $partida = new PartidasJuegos();
             $partida->nombre_partida = $request->nombre_partida;
-            $partida->oro = $request->oro;
             $partida->correo_usuario = auth()->user()->correo_usuario;
-            $partida->id_mision_dc = $request->id_mision_dc;
-            $partida->save(); 
+            $partida->nombre_imagen = "Descent";
+            $partida->save();
 
-            
-            $party = new PartyDc();
-
-            $party->id_partida_dc = $partida->id;
+            $descent = new Descent();
+            $descent->oro = $request->oro;
+            $descent->id_partida_general = $partida->id;
+            $descent->id_mision_dc = $request->id_mision_dc;
+            $descent->save();
+             
+             
+            $this->crearHeroePartidaDescent($descent->id);
 
             $respuesta->setRespuestaExito($respuesta, $partida);
 
@@ -63,21 +66,21 @@ class DescentPartidaController extends Controller
         return response()->json($respuesta);
     }
 
-    public function crearHeroePartidaDescent($id_partida){
+    public function crearHeroePartidaDescent($id_partida_descent){
 
         $respuesta = new Respuesta();
 
         try{
 
-            $partida = Descent::find($id_partida);
-            $maximodeHeroes = PartyDc::where('id_partida_dc' , $partida->id)->get();
+            $partidaDescent = Descent::find($id_partida_descent);
+            $maximodeHeroes = PartyDc::where('id_partida_dc' , $partidaDescent->id)->get();
 
             if($maximodeHeroes->count() >= 4){
                 $respuesta->setRespuestaMaximoHeroesAlcanzado($respuesta);
             } else {
                 $party = new PartyDc();
 
-                $party->id_partida_dc = $partida->id;
+                $party->id_partida_dc = $partidaDescent->id;
                 $party->id_heroe_dc = 1;
                 $party->save(); 
     
@@ -98,34 +101,29 @@ class DescentPartidaController extends Controller
     ///////////////////////////////////////////////////////////////////////
 
 
-    public function verGeneralPartidaDescent($id_partida){
+    public function verGeneralPartidaDescent($id_partida_descent){
 
         $respuesta = new Respuesta();
         $comprobaciones = new Comprobaciones();
         $data = [];
-        
+
+        // 1- Obtener datos generales de la partida
+        $partidaDescent = Descent::find($id_partida_descent);
+
         try{  
             // Usuario con sesión iniciada posee la partida
             if ($comprobaciones->checkActualUserIsUser() 
-            && ($comprobaciones->partidaDescentPerteneceUsuarioActual($id_partida))){
+            && ($comprobaciones->partidaPerteneceUsuarioActual($partidaDescent->id_partida_general))){
         
-
-                // 1- Obtener datos generales de la partida
-                $partida = Descent::find($id_partida);
-                    //dd($partida);
-
-
                 // 2- Obtener cartas del Overlord
-
-
-                if(!$partida->cartas()->first()){
+                if(!$partidaDescent->cartas()->first()){
 
                     $CartasOverlord[0] = "Sin cartas";
 
                 } else{
                     $CartasOverlord = [];
                     $count = 0;
-                    foreach($partida->cartas()->get() as $carta){
+                    foreach($partidaDescent->cartas()->get() as $carta){
                         //dd($carta->nombre_carta);
                         $CartasOverlord[$count] = $carta->nombre_carta;
                         $count++;
@@ -134,16 +132,14 @@ class DescentPartidaController extends Controller
 
                     //dd($CartasOverlord);
 
-                // 3- Obtener misión actual
-                $misionActual = MisionDc::select('nombre_mision_dc')->where('id' , $partida->id_mision_dc)->first();
-                    //dd($misionActual);
-
-
+                // 3- Obtener misión actual y nombre de la partida
+                $misionActual = MisionDc::select('nombre_mision_dc')->where('id' , $partidaDescent->id_mision_dc)->first();
+                $partida = PartidasJuegos::select('nombre_partida')->where('id',$partidaDescent->id_partida_general)->first();
 
 
                 // 5- Guardar junta toda la información
                 $data[0] = $partida->nombre_partida;
-                $data[1] = $partida->oro;
+                $data[1] = $partidaDescent->oro;
                 $data[2] = $misionActual->nombre_mision_dc;
                 $data[3] = $CartasOverlord;
                     //dd($data);
@@ -155,7 +151,7 @@ class DescentPartidaController extends Controller
                 $respuesta->setRespuestaErrorSinPermisos($respuesta);
                 return response()->json($respuesta);
             }
-            
+           
         }catch(\Exception $e){
             $respuesta->setRespuestaErrorElemento($respuesta);
         }
@@ -163,24 +159,26 @@ class DescentPartidaController extends Controller
         return response()->json($respuesta);
     }
 
-    public function verHeroePartidaDescent($id_partida){
+    public function verHeroePartidaDescent($id_partida_descent){
 
         $respuesta = new Respuesta();
         $comprobaciones = new Comprobaciones();
         $data = [];
 
+        // 1- Obtener datos generales de la partida
+        $partidaDescent = Descent::find($id_partida_descent);
+
         try{  
             // Usuario con sesión iniciada posee la partida
             if ($comprobaciones->checkActualUserIsUser() 
-            && ($comprobaciones->partidaDescentPerteneceUsuarioActual($id_partida))){
+            && ($comprobaciones->partidaPerteneceUsuarioActual($partidaDescent->id_partida_general))){
         
                 
-                // 1- Obtener datos generales de la partida
-                $partida = Descent::find($id_partida);
+
 
 
                 // 2- Obtener parties de la partida
-                $arrayParties = PartyDc::where('id_partida_dc' , $partida->id)->get();
+                $arrayParties = PartyDc::where('id_partida_dc' , $partidaDescent->id)->get();
 
 
                 // 3- Obtener información de cada héroe
@@ -297,29 +295,34 @@ class DescentPartidaController extends Controller
     ///////////////////////////////////////////////////////////////////////
 
 
-    public function actualizarGeneralPartidaDescent(Request $request, $id_partida){
+    public function actualizarGeneralPartidaDescent(Request $request, $id_partida_descent){
 
         $respuesta = new Respuesta();
         $comprobaciones = new Comprobaciones();
 
         $dataNueva = [];  
 
+        // 1- Obtener datos generales de la partida
+        $partidaDescent = Descent::find($id_partida_descent);
+   
         try{  
             // Usuario con sesión iniciada posee la partida
             if ($comprobaciones->checkActualUserIsUser() 
-            && ($comprobaciones->partidaDescentPerteneceUsuarioActual($id_partida))){
+            && ($comprobaciones->partidaPerteneceUsuarioActual($partidaDescent->id_partida_general))){
         
                 
-                // 1- Obtener datos generales de la partida
-                $partida = Descent::find($id_partida);
+                
+                $partida = PartidasJuegos::find($partidaDescent->id_partida_general);
+                
                 
                 // 2- Actualizar la partida
                 $nuevamision = MisionDc::select('id')->where('nombre_mision_dc' , $request->nombre_mision_dc)->first();
                 
-                $partida->nombre_partida = $request->nombre_partida;
-                $partida->oro = $request->oro;
-                $partida->id_mision_dc = $nuevamision->id;
+                $partidaDescent->oro = $request->oro;
+                $partidaDescent->id_mision_dc = $nuevamision->id;
+                $partidaDescent->save();
 
+                $partida->nombre_partida = $request->nombre_partida;
                 $partida->save();
 
                 // 3- Actualizar mazo de cartas del Overlord de la partida.
@@ -333,14 +336,16 @@ class DescentPartidaController extends Controller
                     $count++;
                 }
 
-                $partida->cartas()->sync($cartasOverlord);
+                $partidaDescent->cartas()->sync($cartasOverlord);
+
+                
 
                 // 4- Mostrar toda la información
                 $dataNueva[0] = $partida->nombre_partida;
-                $dataNueva[1] = $partida->oro;
-                $dataNueva[2] = $partida->id_mision_dc;
+                $dataNueva[1] = $partidaDescent->oro;
+                $dataNueva[2] = $partidaDescent->id_mision_dc;
                 $dataNueva[3] = $partida->correo_usuario;
-                $dataNueva[4] = $partida->cartas()->allRelatedIds();
+                $dataNueva[4] = $partidaDescent->cartas()->allRelatedIds();
 
                 $respuesta->setRespuestaExito($respuesta, $dataNueva);
                 
@@ -357,23 +362,22 @@ class DescentPartidaController extends Controller
         return response()->json($respuesta);
     }
 
-    public function actualizarHeroePartidaDescent(Request $request, $id_partida, $id_heroe){
+    public function actualizarHeroePartidaDescent(Request $request, $id_partida_descent, $id_heroe){
 
         $respuesta = new Respuesta();
         $comprobaciones = new Comprobaciones();
 
         $dataNueva = [];  
 
+        // 1- Obtener datos generales de la partida
+        $partidaDescent = Descent::find($id_partida_descent);
+
         // Usuario con sesión iniciada posee la partida
         if ($comprobaciones->checkActualUserIsUser() 
-        && ($comprobaciones->partidaDescentPerteneceUsuarioActual($id_partida))){
-
-            // 1- Obtener datos generales de la partida
-            $partida = Descent::find($id_partida);
-
+        && ($comprobaciones->partidaPerteneceUsuarioActual($partidaDescent->id_partida_general))){
 
             // 2- Obtener parties de la partida
-            $heroe = PartyDc::where('id_partida_dc' , $partida->id)->where('id_heroe_dc' , $id_heroe)->first();
+            $heroe = PartyDc::where('id_partida_dc' , $partidaDescent->id)->where('id_heroe_dc' , $id_heroe)->first();
 
             // 3- Obtener información del héroe
             // habilidades_clase [], equipo_heroe [], id_heroe_dc
@@ -438,7 +442,7 @@ class DescentPartidaController extends Controller
     //////////////                DELETE                     //////////////
     ///////////////////////////////////////////////////////////////////////
 
-    public function eliminarPartidaDescent($id_partida){
+    public function eliminarPartidaDescent($id_partida_descent){
 
         $respuesta = new Respuesta();
         $comprobaciones = new Comprobaciones();
@@ -447,11 +451,12 @@ class DescentPartidaController extends Controller
             
             if($comprobaciones->checkActualUserIsUser()){
                 
-                $partidaDescent = Descent::findOrFail($id_partida);
+                $partidaDescent = Descent::findOrFail($id_partida_descent);
+                $partida = PartidasJuegos::findOrFail($partidaDescent->id_partida_general);
 
-                $partidaDescent->delete();
+                $partida->delete();
     
-                $respuesta->setRespuestaExito($respuesta, $partidaDescent);
+                $respuesta->setRespuestaExito($respuesta, $partida);
             } else {
 
                 $respuesta->setRespuestaErrorSinPermisos($respuesta);

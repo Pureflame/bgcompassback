@@ -17,10 +17,10 @@ class partidaGeneralDescentValidate
     public function handle(Request $request, Closure $next)
     {
         $request->validate([
-            'nombre_partida' => ['required','string','min:4', 'max:255','regex:/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$/'],
+            'nombre_partida' => ['required','string','min:4', 'max:255','regex:/^(?=.*[0-9a-zA-Z ]).*$/'],
             'oro' => ['required','string','min:0','max:6','regex:/^(?=.*[0-9]).*$/'],
-            'nombre_mision_dc' => ['required','string','max:255','regex:/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#¿?¡!*_\-$%^&+=]).*$/'],
-            'cartasOverlord' => ['required','string','max:255','regex:/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#¿?¡!*_\-$%^&+=]).*$/'],
+            'nombre_mision_dc' => ['required','string','max:255','regex:/^(?=.*[0-9a-zA-Z ]).*$/'],
+            'cartasOverlord.*' => ['required','string','max:255','regex:/^(?=.*[0-9a-zA-Z ]).*$/'],
         ]);
 
         return $next($request);

@@ -95,8 +95,8 @@ class Comprobaciones {
     ///////////////////////////////////////////////////////////////////////
 
 
-function partidaDescentPerteneceUsuarioActual($id_partida){
-    if(DB::table('descents')->select('descents.id')->where('id', $id_partida)->where('correo_usuario', auth()->user()->correo_usuario)->first() != null){
+function partidaPerteneceUsuarioActual($id_partida_general){
+    if(DB::table('partidas_juegos')->select('id')->where('id', $id_partida_general)->where('correo_usuario', auth()->user()->correo_usuario)->first() != null){
         return true;
     }
     else{

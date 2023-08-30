@@ -17,7 +17,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AdministradorTableSeeder::class,
             UsuarioTableSeeder::class,
+            ImagenesJuegosTableSeeder::class,
 
+            PartidasJuegosTableSeeder::class,
             ClaseDescentTableSeeder::class,
             //ConversacionDescentTableSeeder::class,
             EquipamientoDescentTableSeeder::class,
@@ -33,10 +35,7 @@ class DatabaseSeeder extends Seeder
             ClasePartyDescentTableSeeder::class,
             EquipamientoPartyDescentTableSeeder::class,
             //MensajeDescentTableSeeder::class,
-            
-            
-
-            
+                        
         ]);
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 
 use Illuminate\Support\Facades\DB;
 
-class DescentTableSeeder extends Seeder
+class PartidasJuegosTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,10 +16,10 @@ class DescentTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('descents')->insert([           
-            "oro"=>"0",
-            "id_partida_general"=>"1",
-            "id_mision_dc"=>"1",   
+        DB::table('partidas_juegos')->insert([
+            "nombre_partida"=>"Partida Descent Test",
+            "correo_usuario"=>"joseuser@gmail.com",
+            "nombre_imagen"=>"Descent"
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
     }
