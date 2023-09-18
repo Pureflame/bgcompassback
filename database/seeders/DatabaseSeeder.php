@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
 
             PartidasJuegosTableSeeder::class,
             ClaseDescentTableSeeder::class,
-            //ConversacionDescentTableSeeder::class,
+            ConversacionDescentTableSeeder::class,
             EquipamientoDescentTableSeeder::class,
             HeroeDescentTableSeeder::class,
             MisionDescentTableSeeder::class,
@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
 
             ClasePartyDescentTableSeeder::class,
             EquipamientoPartyDescentTableSeeder::class,
-            //MensajeDescentTableSeeder::class,
+            MensajeDescentTableSeeder::class,
                         
         ]);
     }

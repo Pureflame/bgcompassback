@@ -266,7 +266,7 @@ class UserController extends Controller
         $comprobaciones = new Comprobaciones();
         
         try{
-
+// CAMBIAR TODAS LAS DISCUSIONES Y MENSAJES DE ESTE USUARIO A "USUARIO ELIMINADO"
             if($comprobaciones->checkActualUserIsAdmin()){
                 
                 $usuario = Usuario::findOrFail($id);

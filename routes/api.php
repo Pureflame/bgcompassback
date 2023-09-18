@@ -156,39 +156,48 @@ Route::put('descent/test', [DescentPartidaController::class, 'testsync'])->name(
 //////////////             DESCENT - FORO                //////////////
 ///////////////////////////////////////////////////////////////////////
 
-// Usuario - Ver sus discusiones del foro
-Route::group(['middleware' => ['auth:sanctum']], function(){
-    Route::get('descent/foro/discusiones/{id}', [DescentForoController::class, 'verDiscusionesUsuarioForoDescent'])->middleware('')->name('descent.foro.ver.discusiones.usuario');
-});
-
+////////////// DISCUSIONES //////////////
 // Usuario - Crear Discusión en el foro
 Route::group(['middleware' => ['auth:sanctum']], function(){
-    Route::post('descent/foro/discusion', [DescentForoController::class, 'crearDiscusionForoDescent'])->middleware('')->name('descent.foro.crear.discusion');
+    Route::post('descent/foro/discusion', [DescentForoController::class, 'crearDiscusionForoDescent'])->name('descent.foro.crear.discusion');
+});
+
+// Usuario - Ver sus discusiones del foro
+Route::group(['middleware' => ['auth:sanctum']], function(){
+    Route::get('descent/foro/discusion/usuario', [DescentForoController::class, 'listarDiscusionesUsuarioForoDescent'])->name('descent.foro.ver.discusiones.usuario');
 });
 
 // Listar Discusiones en el foro
-Route::get('descent/foro/discusion', [DescentForoController::class, 'listarDiscusionesForoDescent'])->middleware('')->name('descent.foro.listar.discusiones');
+Route::get('descent/foro/discusion', [DescentForoController::class, 'listarDiscusionesForoDescent'])->name('descent.foro.listar.discusiones');
 
 // Usuario - ¿Editar Discusión del foro?
 
 // Admin - Eliminar Discusión del foro (junto a todos sus mensajes)
 Route::group(['middleware' => ['auth:sanctum']], function(){
-    Route::delete('descent/foro/discusion/{iddiscusion}', [DescentForoController::class, 'eliminarDiscusionForoDescent'])->middleware('')->name('descent.foro.eliminar.discusion');
+    Route::delete('descent/foro/discusion/{iddiscusion}', [DescentForoController::class, 'eliminarDiscusionForoDescent'])->name('descent.foro.eliminar.discusion');
 });
 
+
+////////////// MENSAJES //////////////
 // Usuario - Crear Mensaje de una discusión del foro
 Route::group(['middleware' => ['auth:sanctum']], function(){
-    Route::post('descent/foro/mensaje', [DescentForoController::class, 'crearMensajeForoDescent'])->middleware('')->name('descent.foro.crear.mensaje');
+    Route::post('descent/foro/mensaje/{idconversacion}', [DescentForoController::class, 'crearMensajeForoDescent'])->name('descent.foro.crear.mensaje');
+});
+
+// Listar Mensajes de un usuario del foro
+Route::group(['middleware' => ['auth:sanctum']], function(){
+Route::get('descent/foro/mensaje/usuario', [DescentForoController::class, 'listarMensajesUsuarioForoDescent'])->name('descent.foro.listar.mensajes');
 });
 
 // Listar Mensajes de una discusión del foro
-Route::get('descent/foro/mensaje', [DescentForoController::class, 'listarMensajesForoDescent'])->middleware('')->name('descent.foro.listar.mensajes');
+Route::get('descent/foro/{idconversacion}/mensaje', [DescentForoController::class, 'listarMensajesDiscusionForoDescent'])->name('descent.foro.listar.mensajes');
+
 
 // Usuario - ¿Editar Mensaje de una discusión del foro?
 
 // Admin - Eliminar Mensaje de una discusión del foro
 Route::group(['middleware' => ['auth:sanctum']], function(){
-    Route::delete('descent/foro/mensaje/{idmensaje}', [DescentForoController::class, 'eliminarMensajeForoDescent'])->middleware('')->name('descent.foro.eliminar.mensaje');
+    Route::delete('descent/foro/mensaje/{idmensaje}', [DescentForoController::class, 'eliminarMensajeForoDescent'])->name('descent.foro.eliminar.mensaje');
 });
 
 
