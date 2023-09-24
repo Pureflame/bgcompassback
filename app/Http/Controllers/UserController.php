@@ -137,6 +137,36 @@ class UserController extends Controller
     //////////////                READ_ALL                   //////////////
     ///////////////////////////////////////////////////////////////////////
 
+    public function listarAdministradores(){
+
+        $respuesta = new Respuesta();
+
+        try{  
+                $adminList = Administrador::all();
+                $respuesta->setRespuestaExito($respuesta, $adminList);
+                
+        }catch(\Exception $e){
+            $respuesta->setRespuestaErrorElemento($respuesta);
+        }
+
+        return response()->json($respuesta);
+    }
+
+    public function listarUsuarios(){
+
+        $respuesta = new Respuesta();
+
+        try{  
+                $usuarioList = Usuario::all();
+                $respuesta->setRespuestaExito($respuesta, $usuarioList);
+
+        }catch(\Exception $e){
+            $respuesta->setRespuestaErrorElemento($respuesta);
+        }
+
+        return response()->json($respuesta);
+    }
+
 
     ///////////////////////////////////////////////////////////////////////
     //////////////                UPDATE                     //////////////
@@ -233,7 +263,7 @@ class UserController extends Controller
 
 
 
-    public function destroyAdmin($id){
+    public function deleteAdmin($id){
 
         $respuesta = new Respuesta();
         $comprobaciones = new Comprobaciones();
@@ -260,7 +290,7 @@ class UserController extends Controller
     }
 
 
-    public function destroyUsuario($id){
+    public function deleteUsuario($id){
 
         $respuesta = new Respuesta();
         $comprobaciones = new Comprobaciones();

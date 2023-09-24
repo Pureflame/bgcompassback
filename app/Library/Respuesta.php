@@ -6,6 +6,7 @@ class Respuesta {
 
     const EXITO = 200;
     const TXT_EXITO = 'Éxito';
+    const TXT_EXITO_LOGIN = 'Te has logueado correctamente';
 
     const ERROR_CODIGO = 300;
     const TXT_ERROR_CODIGO = 'Error en código';
@@ -21,14 +22,14 @@ class Respuesta {
 
     public $estadoCodigo;
     public $mensaje;
-    public $datos;
+    public $data;
 
     // Ponemos error de serie para evitar falsos positivos
     function __construct(){
 
         $this->estadoCodigo = self::ERROR_CODIGO;
         $this->mensaje = self::TXT_ERROR_CODIGO;
-        $this->datos = '';
+        $this->data = '';
     }
 
     ///////////////////////////////////////////////////////////////////////
@@ -43,8 +44,8 @@ class Respuesta {
         return $this->mensaje;
     }
 
-    public function getDatos($datos){
-        return $this->datos;
+    public function getDatos($data){
+        return $this->data;
     }
 
     ///////////////////////////////////////////////////////////////////////
@@ -59,18 +60,24 @@ class Respuesta {
         $this->mensaje = $mensaje;
     }
 
-    public function setDatos($datos) : void{
-        $this->datos = $datos;
+    public function setDatos($data) : void{
+        $this->data = $data;
     }
 
     ///////////////////////////////////////////////////////////////////////
     //////////////                 ACCIONES                  //////////////
     ///////////////////////////////////////////////////////////////////////
 
-    public function setRespuestaExito($respuesta, $datos) : void{
-        $respuesta->setDatos($datos);
+    public function setRespuestaExito($respuesta, $data) : void{
+        $respuesta->setDatos($data);
         $respuesta->setEstadoCodigo(self::EXITO);
         $respuesta->setMensaje(self::TXT_EXITO);
+    }
+
+    public function setLoginExito($respuesta, $data) : void{
+        $respuesta->setDatos($data);
+        $respuesta->setEstadoCodigo(self::EXITO);
+        $respuesta->setMensaje(self::TXT_EXITO_LOGIN);
     }
 
     public function setRespuestaErrorCodigo($respuesta) : void{

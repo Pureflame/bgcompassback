@@ -33,7 +33,9 @@ class LoginController extends Controller
             $user = Administrador::where('correo_admin', $request->email)->first();
 
             $token = $user->createToken($request->email)->plainTextToken;
-            return response(["status"=>200, "Result"=>"LOGIN: Te has logueado correctamente","token"=>$token]);
+            $respuesta->setRespuestaExito($respuesta, $token);
+            //return response(["status"=>200, "Result"=>"LOGIN: Te has logueado correctamente","token"=>$token]);
+            return response()->json($respuesta);
             //return response()->json(["token"=>$token],["Resultado"=>$respuesta]);
 
         } else if($comprobaciones->checkCorreoUsuario($request->email)){
@@ -46,7 +48,9 @@ class LoginController extends Controller
             $user = Usuario::where('correo_usuario', $request->email)->first();
 
             $token = $user->createToken($request->email)->plainTextToken;
-            return response(["status"=>200, "Result"=>"LOGIN: Te has logueado correctamente","token"=>$token]);
+            $respuesta->setRespuestaExito($respuesta, $token);
+            //return response(["status"=>200, "Result"=>"LOGIN: Te has logueado correctamente","token"=>$token]);
+            return response()->json($respuesta);
 
         } else{
             $respuesta->setRespuestaErrorElemento($respuesta);

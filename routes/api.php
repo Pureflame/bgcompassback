@@ -44,11 +44,14 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 Route::post('usuario-registro/usuario', [UserController::class, 'registrarUsuario'])->middleware('registerUsuario.validate')->name('usuarios.registro.usuario');
 
 // ¿Ver todos los Usuarios?
+Route::get('administrador/list', [UserController::class, 'listarAdministradores'])->name('admins.list');
+Route::get('usuarios/list', [UserController::class, 'listarUsuarios'])->name('usuarios.list');
 
 // ¿Actualizar Usuarios?
 
 // ¿Eliminar Usuarios?
-
+Route::delete('usuario-borrar/administrador/{id}', [UserController::class, 'deleteAdmin'])->name('admin.delete');
+Route::delete('usuario-borrar/usuario/{id}', [UserController::class, 'deleteUsuario'])->name('usuarios.delete');
 
 
 // Usuario / Admin Perfil - Ver Datos de Usuario
