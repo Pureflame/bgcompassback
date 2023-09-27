@@ -18,12 +18,31 @@ class Comprobaciones {
         }
     }
 
+    public function checkIsAdmin($correo){
+        
+        if(DB::table('administradores')->select('administradores.correo_admin')->where('correo_admin', $correo)->first() != null){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
 
     // Comprueba que el usuario actual logueado sea un usuario
     public function checkActualUserIsUser(){
     
         if(DB::table('usuarios')->select('usuarios.correo_usuario')->where('correo_usuario', auth()->user()->correo_usuario)->first() != null){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public function checkIsUser($correo){
+    
+        if(DB::table('usuarios')->select('usuarios.correo_usuario')->where('correo_usuario', $correo)->first() != null){
             return true;
         }
         else{

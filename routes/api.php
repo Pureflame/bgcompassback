@@ -44,8 +44,8 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 Route::post('usuario-registro/usuario', [UserController::class, 'registrarUsuario'])->middleware('registerUsuario.validate')->name('usuarios.registro.usuario');
 
 // ¿Ver todos los Usuarios?
-Route::get('administrador/list', [UserController::class, 'listarAdministradores'])->name('admins.list');
-Route::get('usuarios/list', [UserController::class, 'listarUsuarios'])->name('usuarios.list');
+//Route::get('administrador/list', [UserController::class, 'listarAdministradores'])->name('admins.list');
+//Route::get('usuarios/list', [UserController::class, 'listarUsuarios'])->name('usuarios.list');
 
 // ¿Actualizar Usuarios?
 
@@ -53,7 +53,10 @@ Route::get('usuarios/list', [UserController::class, 'listarUsuarios'])->name('us
 Route::delete('usuario-borrar/administrador/{id}', [UserController::class, 'deleteAdmin'])->name('admin.delete');
 Route::delete('usuario-borrar/usuario/{id}', [UserController::class, 'deleteUsuario'])->name('usuarios.delete');
 
-
+// Ver Usuario actual según su correo
+Route::group(['middleware' => ['auth:sanctum']], function(){
+    Route::get('usuario-actual/ver', [UserController::class, 'verDatosUsuarioActual'])->name('usuarios.usuario.actual');
+});
 // Usuario / Admin Perfil - Ver Datos de Usuario
 Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('usuario-perfil/administrador/ver/{id}', [UserController::class, 'verDatosAdmin'])->name('usuarios.perfil.admin.datos.ver');
@@ -189,7 +192,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 
 // Listar Mensajes de un usuario del foro
 Route::group(['middleware' => ['auth:sanctum']], function(){
-Route::get('descent/foro/mensaje/usuario', [DescentForoController::class, 'listarMensajesUsuarioForoDescent'])->name('descent.foro.listar.mensajes');
+    Route::get('descent/foro/mensaje/usuario', [DescentForoController::class, 'listarMensajesUsuarioForoDescent'])->name('descent.foro.listar.mensajes');
 });
 
 // Listar Mensajes de una discusión del foro

@@ -271,9 +271,10 @@ class DescentPartidaController extends Controller
             // Solo se puede hacer si es el usuario al cual pertenece el id
             if ($comprobaciones->checkIDUsuarioActual($id_usuario)){
         
-                
+                //dd("df");
                 $correo = $comprobaciones->obtenerCorreoUsuario($id_usuario);
-                $partidaList = Descent::where('correo_usuario' , $correo);
+                //dd($correo);
+                $partidaList = PartidasJuegos::where('correo_usuario' , $correo)->where('nombre_imagen', 'Descent')->get();
                 
                 $respuesta->setRespuestaExito($respuesta, $partidaList);
                 

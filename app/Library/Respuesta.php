@@ -6,7 +6,8 @@ class Respuesta {
 
     const EXITO = 200;
     const TXT_EXITO = 'Éxito';
-    const TXT_EXITO_LOGIN = 'Te has logueado correctamente';
+    const TXT_EXITO_LOGIN_ADMIN = 'administrador';
+    const TXT_EXITO_LOGIN_USER = 'usuario';
 
     const ERROR_CODIGO = 300;
     const TXT_ERROR_CODIGO = 'Error en código';
@@ -74,10 +75,16 @@ class Respuesta {
         $respuesta->setMensaje(self::TXT_EXITO);
     }
 
-    public function setLoginExito($respuesta, $data) : void{
+    public function setLoginExitoAdmin($respuesta, $data) : void{
         $respuesta->setDatos($data);
         $respuesta->setEstadoCodigo(self::EXITO);
-        $respuesta->setMensaje(self::TXT_EXITO_LOGIN);
+        $respuesta->setMensaje(self::TXT_EXITO_LOGIN_ADMIN);
+    }
+
+    public function setLoginExitoUser($respuesta, $data) : void{
+        $respuesta->setDatos($data);
+        $respuesta->setEstadoCodigo(self::EXITO);
+        $respuesta->setMensaje(self::TXT_EXITO_LOGIN_USER);
     }
 
     public function setRespuestaErrorCodigo($respuesta) : void{

@@ -133,10 +133,41 @@ class UserController extends Controller
 
         return response()->json($respuesta);
     }
+
+    public function verDatosUsuarioActual(Request $request){
+
+        $respuesta = new Respuesta();
+        $comprobaciones = new Comprobaciones();
+        $usuario = new Usuario();
+        
+        try{  
+            // Comprueba si es administrador o usuario
+            if ($comprobaciones->checkIsAdmin(request()->correo)){
+
+                $admin = Administrador::where('correo_admin', request()->correo)->get();
+                $respuesta->setRespuestaExito($respuesta, $admin);
+                
+            } else if ($comprobaciones->checkIsUser(request()->correo)){
+                $usuario = Usuario::where('correo_usuario', request()->correo)->get();
+                //dd($usuario);
+                $respuesta->setRespuestaExito($respuesta, $usuario);
+
+            } else{
+                $respuesta->setRespuestaErrorSinPermisos($respuesta);
+                return response()->json($respuesta);
+            }
+            
+        }catch(\Exception $e){
+            $respuesta->setRespuestaErrorElemento($respuesta);
+        }
+
+        return response()->json($respuesta);
+    }
     ///////////////////////////////////////////////////////////////////////
     //////////////                READ_ALL                   //////////////
     ///////////////////////////////////////////////////////////////////////
 
+    /*
     public function listarAdministradores(){
 
         $respuesta = new Respuesta();
@@ -166,7 +197,7 @@ class UserController extends Controller
 
         return response()->json($respuesta);
     }
-
+*/
 
     ///////////////////////////////////////////////////////////////////////
     //////////////                UPDATE                     //////////////

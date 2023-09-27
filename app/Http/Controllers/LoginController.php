@@ -33,7 +33,7 @@ class LoginController extends Controller
             $user = Administrador::where('correo_admin', $request->email)->first();
 
             $token = $user->createToken($request->email)->plainTextToken;
-            $respuesta->setRespuestaExito($respuesta, $token);
+            $respuesta->setLoginExitoAdmin($respuesta, $token);
             //return response(["status"=>200, "Result"=>"LOGIN: Te has logueado correctamente","token"=>$token]);
             return response()->json($respuesta);
             //return response()->json(["token"=>$token],["Resultado"=>$respuesta]);
@@ -48,7 +48,7 @@ class LoginController extends Controller
             $user = Usuario::where('correo_usuario', $request->email)->first();
 
             $token = $user->createToken($request->email)->plainTextToken;
-            $respuesta->setRespuestaExito($respuesta, $token);
+            $respuesta->setLoginExitoUser($respuesta, $token);
             //return response(["status"=>200, "Result"=>"LOGIN: Te has logueado correctamente","token"=>$token]);
             return response()->json($respuesta);
 
