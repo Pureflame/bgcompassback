@@ -51,8 +51,9 @@ Route::post('usuario-registro/usuario', [UserController::class, 'registrarUsuari
 
 // ¿Eliminar Usuarios?
 Route::delete('usuario-borrar/administrador/{id}', [UserController::class, 'deleteAdmin'])->name('admin.delete');
-Route::delete('usuario-borrar/usuario/{id}', [UserController::class, 'deleteUsuario'])->name('usuarios.delete');
-
+Route::group(['middleware' => ['auth:sanctum']], function(){
+    Route::delete('usuario-borrar/usuario/{id}', [UserController::class, 'deleteUsuario'])->name('usuarios.delete');
+});
 // Ver Usuario actual según su correo
 Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('usuario-actual/ver', [UserController::class, 'verDatosUsuarioActual'])->name('usuarios.usuario.actual');
@@ -83,7 +84,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('usuario-perfil/usuario/partidas/{id}', [UserController::class, 'listarPartidasUsuario'])->middleware('')->name('usuarios.perfil.usuario.listar.partidas');
 });
 
-// Usuario Perfil - Listar Discusiones del Foro de todos los juegos
+// Usuario Perfil - Listar Discusiones del Foro de todos los juegos de un usuario
 Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('usuario-perfil/usuario/discusiones/{id}', [UserController::class, 'listarDiscusionesUsuario'])->middleware('')->name('usuarios.perfil.usuario.listar.discusiones');
 });
@@ -136,7 +137,8 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 
 // Usuario - Actualizar Heroe Partida de Descent
 Route::group(['middleware' => ['auth:sanctum']], function(){
-    Route::put('descent/{idpartida}/heroes/{idheroe}', [DescentPartidaController::class, 'actualizarHeroePartidaDescent'])->middleware('descentHeroe.validate')->name('descent.partida.actualizar.heroe');
+    //Route::put('descent/{idpartida}/heroes/{idheroe}', [DescentPartidaController::class, 'actualizarHeroePartidaDescent'])->middleware('descentHeroe.validate')->name('descent.partida.actualizar.heroe');
+    Route::put('descent/{idpartida}/heroes', [DescentPartidaController::class, 'actualizarTodosHeroePartidaDescent'])->name('descent.partida.actualizar.heroe');
 });
 
 //  - Heroes (todos se muestran juntos en una vista, maximo 4)

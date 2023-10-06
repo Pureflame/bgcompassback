@@ -235,7 +235,7 @@ class DescentPartidaController extends Controller
                     $data[$count][0] = $nombresHeroes;
                     $data[$count][1] = $tituloClase;
                     $data[$count][2] = $habilidades;
-                    //$data[$count][3] = $equipamientos;
+                    $data[$count][3] = $equipamientos;
 
                     $count++;
                 }
@@ -330,6 +330,7 @@ class DescentPartidaController extends Controller
                 $count = 0;
                 $cartasOverlord = [];
                 
+                
                 foreach($request->cartasOverlord as $carta){
                     
                     $aux = CartaOverlordDc::select('id')->where('nombre_carta' , $carta)->first();
@@ -363,7 +364,9 @@ class DescentPartidaController extends Controller
         return response()->json($respuesta);
     }
 
-    public function actualizarHeroePartidaDescent(Request $request, $id_partida_descent, $id_heroe){
+    
+
+    public function actualizarTodosHeroePartidaDescent(Request $request, $id_partida_descent){
 
         $respuesta = new Respuesta();
         $comprobaciones = new Comprobaciones();
@@ -372,71 +375,143 @@ class DescentPartidaController extends Controller
 
         // 1- Obtener datos generales de la partida
         $partidaDescent = Descent::find($id_partida_descent);
-
+//dd($request->heroes[1]["id_heroe"]);        
         // Usuario con sesión iniciada posee la partida
         if ($comprobaciones->checkActualUserIsUser() 
         && ($comprobaciones->partidaPerteneceUsuarioActual($partidaDescent->id_partida_general))){
 
-            // 2- Obtener parties de la partida
-            $heroe = PartyDc::where('id_partida_dc' , $partidaDescent->id)->where('id_heroe_dc' , $id_heroe)->first();
 
-            // 3- Obtener información del héroe
-            // habilidades_clase [], equipo_heroe [], id_heroe_dc
-
-            $heroe->id_heroe_dc = $request->id_heroe_dc;
-
-            // Habilidades del heroe
-            $habilidadesHeroe = PartyDc::find($heroe->id);
+            $todosLosHeroesActuales = PartyDc::select('id_heroe_dc')->where('id_partida_dc' , $partidaDescent->id)->get();
             
-            if(emptyArray($request->habilidades_clase)){
 
-                $habilidadesHeroe->clases()->detach();
-
-            } else{
-                $habilidadesNuevas = [];
-                $count2 = 0;
-                foreach($request->habilidades_clase as $habilidadNueva){
-                    $aux = ClaseDc::select('id')->where('nombre_clase_dc' , $habilidadNueva)->first();
-                    $habilidadesNuevas[$count2] = $aux->id;
-                    $count2++;
-                }
-
-                $habilidadesHeroe->clases()->sync($habilidadesNuevas);
+            $todosLosHeroesId = [];
+            $count2 = 0;
+            foreach($request->heroes as $heroeActual){
+                $id_heroe = $heroeActual["id_heroe"];
+                
+                $todosLosHeroesId[$count2] = $id_heroe;
+               
+                $count2++;
             }
 
-            // Equipo del heroe
-            $equipoHeroe = PartyDc::find($heroe->id);
-
-            if(emptyArray($request->equipoHeroe)){
-
-                $equipoHeroe->equipamientos()->detach();
-
-            } else{
-                $equipoNuevo = [];
-                $count2 = 0;
-                foreach($request->equipo_heroe as $equipo){
-                    $aux = EquipamientoDc::select('id')->where('nombre_equipamiento_dc' , $equipo)->first();
-                    $equipoNuevo[$count2] = $aux->id;
-                    $count2++;
-                }
-
-                $equipoHeroe->equipamientos()->sync($equipoNuevo);
+            $count4 = 0;
+            $todosLosHeroesActualesId = [];
+            foreach($todosLosHeroesActuales as $heroeActual){
+                $todosLosHeroesActualesId[$count4] = $heroeActual["id_heroe_dc"];
+                $count4++;
             }
 
-            // 4- Mostrar toda la información
-            $dataNueva[0] = $heroe->id_heroe_dc;
-            $dataNueva[1] = $habilidadesHeroe->clases()->allRelatedIds();
-            $dataNueva[2] = $equipoHeroe->clases()->allRelatedIds();
+            // Borrar heroes que ya no están en el listado de la partida
+            $count3 = 0;
+            foreach($todosLosHeroesActualesId as $heroeActualId){
+                
+                if(!in_array($heroeActualId, $todosLosHeroesId)) {
 
-            $respuesta->setRespuestaExito($respuesta, $dataNueva);
+                    $id_party_heroe_actual = PartyDc::select('id')->where('id_partida_dc' , $partidaDescent->id)->where('id_heroe_dc' , $heroeActualId)->first();
+                    
+                    $this->eliminarHeroePartidaDescent($id_party_heroe_actual["id"]);
+                    
+                }
+                $count3++;
+            }
+            
+           
+            
 
+            $todosLosHeroes = [];
+            $count = 0;
+            foreach($request->heroes as $heroeActual){
+                $id_heroe = $heroeActual["id_heroe"];
+                
+                $todosLosHeroes[$count] = $this->actualizarHeroePartidaDescent($heroeActual, $id_heroe, $id_partida_descent);
+               
+                $count++;
+            }
+
+            $respuesta->setRespuestaExito($respuesta, "Actualización Exitosa");
         } else {
 
             $respuesta->setRespuestaErrorSinPermisos($respuesta);
             return response()->json($respuesta);
         }
+        return response()->json($respuesta);
     }
 
+    public function actualizarHeroePartidaDescent($heroeActual, $id_heroe, $id_partida_descent){
+
+        $respuesta = new Respuesta();
+        $comprobaciones = new Comprobaciones();
+
+        $dataNueva = [];  
+        
+        // 1- Obtener datos generales de la partida
+        $partidaDescent = Descent::find($id_partida_descent);
+
+
+            // 2- Obtener parties de la partida
+            
+            $heroe = PartyDc::where('id_partida_dc' , $partidaDescent->id)->where('id_heroe_dc' , $id_heroe)->first();
+            
+            
+            // 3- Obtener información del héroe
+            // habilidades_clase [], equipo_heroe [], id_heroe_dc
+            $heroe->id_heroe_dc = $heroeActual["id_heroe_dc"];
+            
+            
+            $habilidadesHeroe = PartyDc::find($heroe->id_heroe_dc);
+            $equipoHeroe = PartyDc::find($heroe->id_heroe_dc);
+            $habilidadesNuevas = [];
+            $equipoNuevo = [];
+            // Habilidades del heroe
+            
+            
+            if(empty($heroeActual["habilidades_clase"])){
+
+                $habilidadesHeroe->clases()->detach();
+
+            } else{
+                
+                $count2 = 0;
+                foreach($heroeActual["habilidades_clase"] as $habilidadNueva){
+                    
+                    $aux = ClaseDc::select('id')->where('nombre_clase_dc' , $habilidadNueva)->first();
+                    
+                    $habilidadesNuevas[$count2] = $aux->id;
+                    $count2++;
+                    
+                }
+                
+                $habilidadesHeroe->clases()->sync($habilidadesNuevas);
+            }
+
+            // Equipo del heroe
+            
+
+            if(empty($heroeActual["equipo_heroe"])){
+
+                $equipoHeroe->equipamientos()->detach();
+
+            } else{
+                
+                $count2 = 0;
+                foreach($heroeActual["equipo_heroe"] as $equipo){
+                    $aux = EquipamientoDc::select('id')->where('nombre_equipamiento_dc' , $equipo)->first();
+                    $equipoNuevo[$count2] = $aux->id;
+                    $count2++;
+                }
+                
+                $equipoHeroe->equipamientos()->sync($equipoNuevo);
+            }
+            
+            
+            $heroe->save();
+            // 4- Mostrar toda la información
+            $dataNueva[0] = $heroe->id_heroe_dc;
+            $dataNueva[1] = $habilidadesHeroe->clases()->allRelatedIds();
+            $dataNueva[2] = $equipoHeroe->clases()->allRelatedIds();
+            //dd($dataNueva);
+            return $dataNueva;
+    }
 
 
     ///////////////////////////////////////////////////////////////////////
@@ -484,7 +559,7 @@ class DescentPartidaController extends Controller
                 
                 $partidaDescent->delete();
     
-                $respuesta->setRespuestaExito($respuesta, $partidaDescent);
+                //$respuesta->setRespuestaExito($respuesta, $partidaDescent);
             } else {
 
                 $respuesta->setRespuestaErrorSinPermisos($respuesta);
@@ -495,7 +570,7 @@ class DescentPartidaController extends Controller
             $respuesta->setRespuestaErrorElemento($respuesta);
         }
 
-        return response()->json($respuesta);
+        //return response()->json($respuesta);
     }
 
 

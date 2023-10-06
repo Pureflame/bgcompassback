@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('titulo_conversacion_dc');
 
             $table->string('correo_usuario');
-            $table->foreign('correo_usuario')->references('correo_usuario')->on('usuarios')->noActionOnDelete();
+            $table->foreign('correo_usuario')->references('correo_usuario')->on('usuarios')->cascadeOnDelete();
 
             //$table->timestamps();
         });

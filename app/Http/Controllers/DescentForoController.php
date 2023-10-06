@@ -79,6 +79,7 @@ class DescentForoController extends Controller
         $discusiones = ConversacionDescent::where('correo_usuario', auth()->user()->correo_usuario)->get();
         
         try{
+
             $nombresDiscusiones = [];
             $count = 0;
             foreach($discusiones as $discusion){
@@ -86,6 +87,10 @@ class DescentForoController extends Controller
                 $count++;
             }
             $respuesta->setRespuestaExito($respuesta, $nombresDiscusiones);
+
+
+
+            
         }catch(\Exception $e){
             $respuesta->setRespuestaErrorElemento($respuesta);
         }
@@ -100,10 +105,16 @@ class DescentForoController extends Controller
         $discusiones = ConversacionDescent::all();
         
         try{
+
+
             $nombresDiscusiones = [];
             $count = 0;
             foreach($discusiones as $discusion){
-                $nombresDiscusiones[$count] = $discusion->titulo_conversacion_dc;
+
+                $usuario = Usuario::select('nombre_usuario')->where('correo_usuario', $discusion->correo_usuario)->first();
+                
+                $nombresDiscusiones[$count][0] = $discusion->titulo_conversacion_dc;
+                $nombresDiscusiones[$count][1] = $usuario->nombre_usuario;
                 $count++;
             }
             $respuesta->setRespuestaExito($respuesta, $nombresDiscusiones);
@@ -141,7 +152,11 @@ class DescentForoController extends Controller
             $textoMensajes = [];
             $count = 0;
             foreach($mensajes as $mensaje){
-                $textoMensajes[$count] = $mensaje->texto_mensaje_dc;
+
+                $usuario = Usuario::select('nombre_usuario')->where('correo_usuario', $mensaje->correo_usuario)->first();
+
+                $textoMensajes[$count][0] = $mensaje->texto_mensaje_dc;
+                $textoMensajes[$count][1] = $usuario->nombre_usuario;
                 $count++;
             }
             $respuesta->setRespuestaExito($respuesta, $textoMensajes);

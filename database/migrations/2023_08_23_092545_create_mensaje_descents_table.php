@@ -22,7 +22,7 @@ return new class extends Migration
             $table->foreign('id_conversacion_dc')->references('id')->on('conversacion_descents')->cascadeOnDelete();
 
             $table->string('correo_usuario');
-            $table->foreign('correo_usuario')->references('correo_usuario')->on('usuarios')->noActionOnDelete();
+            $table->foreign('correo_usuario')->references('correo_usuario')->on('usuarios')->cascadeOnDelete();
 
             //$table->timestamps();
         });

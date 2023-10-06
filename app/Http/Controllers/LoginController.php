@@ -61,7 +61,6 @@ class LoginController extends Controller
     // Cerrar sesión. 
     // Eliminamos el token de acceso del usuario actual.
     public function logout(Request $request){
-        
         $request->user()->currentAccessToken()->delete();
 
         return response(["status"=>200, "Result"=>"LOGOUT: Cierre de sesión"], Response::HTTP_OK);

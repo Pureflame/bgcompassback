@@ -13,6 +13,7 @@ use Illuminate\Http\Response;
 
 use App\Library\Respuesta;
 use App\Library\Comprobaciones;
+use App\Models\ConversacionDescent;
 
 class UserController extends Controller
 {
@@ -325,9 +326,9 @@ class UserController extends Controller
 
         $respuesta = new Respuesta();
         $comprobaciones = new Comprobaciones();
-        
+       
         try{
-// CAMBIAR TODAS LAS DISCUSIONES Y MENSAJES DE ESTE USUARIO A "USUARIO ELIMINADO"
+
             if($comprobaciones->checkActualUserIsAdmin()){
                 
                 $usuario = Usuario::findOrFail($id);
