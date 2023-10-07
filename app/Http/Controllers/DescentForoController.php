@@ -113,8 +113,9 @@ class DescentForoController extends Controller
 
                 $usuario = Usuario::select('nombre_usuario')->where('correo_usuario', $discusion->correo_usuario)->first();
                 
-                $nombresDiscusiones[$count][0] = $discusion->titulo_conversacion_dc;
-                $nombresDiscusiones[$count][1] = $usuario->nombre_usuario;
+                $nombresDiscusiones[$count][0] = $discusion->id;
+                $nombresDiscusiones[$count][1] = $discusion->titulo_conversacion_dc;
+                $nombresDiscusiones[$count][2] = $usuario->nombre_usuario;
                 $count++;
             }
             $respuesta->setRespuestaExito($respuesta, $nombresDiscusiones);
@@ -154,9 +155,10 @@ class DescentForoController extends Controller
             foreach($mensajes as $mensaje){
 
                 $usuario = Usuario::select('nombre_usuario')->where('correo_usuario', $mensaje->correo_usuario)->first();
-
-                $textoMensajes[$count][0] = $mensaje->texto_mensaje_dc;
-                $textoMensajes[$count][1] = $usuario->nombre_usuario;
+                
+                $textoMensajes[$count][0] = $mensaje->id;
+                $textoMensajes[$count][1] = $mensaje->texto_mensaje_dc;
+                $textoMensajes[$count][2] = $usuario->nombre_usuario;
                 $count++;
             }
             $respuesta->setRespuestaExito($respuesta, $textoMensajes);

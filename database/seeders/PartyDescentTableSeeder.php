@@ -36,5 +36,19 @@ class PartyDescentTableSeeder extends Seeder
 
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
+
+        DB::table('party_dcs')->insert([
+            "id_partida_dc"=>"2",            
+            "id_heroe_dc"=>"1",
+
+        //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+
+        DB::table('party_dcs')->insert([
+            "id_partida_dc"=>"3",            
+            "id_heroe_dc"=>"2",
+
+        //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
     }
 }

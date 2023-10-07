@@ -42,6 +42,41 @@ class EquipamientoPartyDescentTableSeeder extends Seeder
 
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
+
+        DB::table('equipamiento_dc_party_dc')->insert([
+            "party_dc_id"=>"2", 
+            "equipamiento_dc_id"=>"3",            
+
+        //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+
+        DB::table('equipamiento_dc_party_dc')->insert([
+            "party_dc_id"=>"2", 
+            "equipamiento_dc_id"=>"4",            
+
+        //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+
+        DB::table('equipamiento_dc_party_dc')->insert([
+            "party_dc_id"=>"2", 
+            "equipamiento_dc_id"=>"5",            
+
+        //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+
+        DB::table('equipamiento_dc_party_dc')->insert([
+            "party_dc_id"=>"3", 
+            "equipamiento_dc_id"=>"1",            
+
+        //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+        
+        DB::table('equipamiento_dc_party_dc')->insert([
+            "party_dc_id"=>"4", 
+            "equipamiento_dc_id"=>"4",            
+
+        //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
         
     }
 }

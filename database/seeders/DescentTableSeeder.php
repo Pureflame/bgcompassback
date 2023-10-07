@@ -17,9 +17,23 @@ class DescentTableSeeder extends Seeder
     public function run()
     {
         DB::table('descents')->insert([           
-            "oro"=>"0",
+            "oro"=>"10",
             "id_partida_general"=>"1",
             "id_mision_dc"=>"1",   
+        //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+
+        DB::table('descents')->insert([           
+            "oro"=>"20",
+            "id_partida_general"=>"2",
+            "id_mision_dc"=>"2",   
+        //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+
+        DB::table('descents')->insert([           
+            "oro"=>"30",
+            "id_partida_general"=>"3",
+            "id_mision_dc"=>"3",   
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
     }

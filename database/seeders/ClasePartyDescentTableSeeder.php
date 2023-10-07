@@ -36,8 +36,56 @@ class ClasePartyDescentTableSeeder extends Seeder
         ]);
 
         DB::table('clase_dc_party_dc')->insert([
+            "party_dc_id"=>"1",            
+            "clase_dc_id"=>"18",
+        //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+
+        DB::table('clase_dc_party_dc')->insert([
             "party_dc_id"=>"2",            
             "clase_dc_id"=>"19",
+        //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+
+        DB::table('clase_dc_party_dc')->insert([
+            "party_dc_id"=>"2",            
+            "clase_dc_id"=>"3",
+        //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+
+        DB::table('clase_dc_party_dc')->insert([
+            "party_dc_id"=>"2",            
+            "clase_dc_id"=>"4",
+        //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+
+        DB::table('clase_dc_party_dc')->insert([
+            "party_dc_id"=>"2",            
+            "clase_dc_id"=>"1",
+        //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+
+        DB::table('clase_dc_party_dc')->insert([
+            "party_dc_id"=>"2",            
+            "clase_dc_id"=>"2",
+        //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+
+        DB::table('clase_dc_party_dc')->insert([
+            "party_dc_id"=>"3",            
+            "clase_dc_id"=>"1",
+        //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+
+        DB::table('clase_dc_party_dc')->insert([
+            "party_dc_id"=>"3",            
+            "clase_dc_id"=>"4",
+        //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+
+        DB::table('clase_dc_party_dc')->insert([
+            "party_dc_id"=>"4",            
+            "clase_dc_id"=>"4",
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
     }
