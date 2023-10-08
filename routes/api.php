@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdministradorController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\DescentPartidaController;
@@ -79,7 +80,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 Route::get('menu/partidas', [JuegosController::class, 'listarJuegos'])->middleware('')->name('menu.principal.partidas');
 Route::get('menu/foros', [JuegosController::class, 'listarForos'])->middleware('')->name('menu.principal.foros');
 
-// Usuario Perfil - Listar Partidas creadas de todos los juegos
+// Usuario Perfil - Listar Partidas creadas de todos los juegos de un usuario
 Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('usuario-perfil/usuario/partidas/{id}', [UserController::class, 'listarPartidasUsuario'])->middleware('')->name('usuarios.perfil.usuario.listar.partidas');
 });
@@ -92,6 +93,16 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 // Admin - Ver todas las Partidas creadas por un Usuario de todos los juegos
 Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('admin/partidas-usuario/{id}', [UserController::class, 'adminVerPartidasUsuario'])->middleware('')->name('admin.ver.partidas.usuario');
+});
+
+// Admin Perfil - Ver todas las Partidas creadas de todos los juegos
+Route::group(['middleware' => ['auth:sanctum']], function(){
+    Route::get('admin/partidas-juegos', [AdministradorController::class, 'adminListarTodasLasPartidas'])->name('admin.listar.partidas');
+});
+
+// Admin Perfil - Ver todas las Discusiones creadas de todos los juegos
+Route::group(['middleware' => ['auth:sanctum']], function(){
+    Route::get('admin/discusiones-juegos', [AdministradorController::class, 'adminListarTodasLasDiscusiones'])->name('admin.listar.discusiones');
 });
 
 ///////////////////////////////////////////////////////////////////////
@@ -132,7 +143,9 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 // Usuario - Listar las misiones
 Route::get('descent/misiones/lista', [DescentPartidaController::class, 'listarMisionesDescent'])->name('descent.misiones.listar');
 Route::get('descent/cartas/lista', [DescentPartidaController::class, 'listarCartasDescent'])->name('descent.misiones.listar');
-
+Route::get('descent/heroes/lista', [DescentPartidaController::class, 'listarHeroesDescent'])->name('descent.heroes.listar');
+Route::get('descent/equipo/lista', [DescentPartidaController::class, 'listarEquipoDescent'])->name('descent.equipo.listar');
+Route::get('descent/habilidades/lista', [DescentPartidaController::class, 'listarHabilidadesDescent'])->name('descent.habilidades.listar');
 
 
 
