@@ -129,6 +129,12 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::put('descent/{idpartida}/general', [DescentPartidaController::class, 'actualizarGeneralPartidaDescent'])->middleware('descentGeneral.validate')->name('descent.partida.actualizar.general');
 });
 
+// Usuario - Listar las misiones
+Route::get('descent/misiones/lista', [DescentPartidaController::class, 'listarMisionesDescent'])->name('descent.misiones.listar');
+Route::get('descent/cartas/lista', [DescentPartidaController::class, 'listarCartasDescent'])->name('descent.misiones.listar');
+
+
+
 
 // Usuario - Crear Heroe Partida de Descent
 Route::group(['middleware' => ['auth:sanctum']], function(){

@@ -77,13 +77,15 @@ class DescentForoController extends Controller
     public function listarDiscusionesUsuarioForoDescent(Request $request){
         $respuesta = new Respuesta();
         $discusiones = ConversacionDescent::where('correo_usuario', auth()->user()->correo_usuario)->get();
-        
+        $usuario = Usuario::select('nombre_usuario')->where('correo_usuario', auth()->user()->correo_usuario)->first();
         try{
 
             $nombresDiscusiones = [];
             $count = 0;
             foreach($discusiones as $discusion){
-                $nombresDiscusiones[$count] = $discusion->titulo_conversacion_dc;
+                $nombresDiscusiones[$count][0] = $discusion->id;
+                $nombresDiscusiones[$count][1] = $discusion->titulo_conversacion_dc;
+                $nombresDiscusiones[$count][2] = $usuario->nombre_usuario;
                 $count++;
             }
             $respuesta->setRespuestaExito($respuesta, $nombresDiscusiones);

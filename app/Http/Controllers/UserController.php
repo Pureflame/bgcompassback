@@ -265,7 +265,7 @@ class UserController extends Controller
         
         $request->validate([
             'nombre_usuario' => ['required','string','min:2','max:20','regex:/^[a-zA-Z ]+$/'],
-            'contrasenha_usuario' => ['required','string','min:10','max:255','regex:/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#¿?¡!*_\-$%^&+=]).*$/'],
+            //'contrasenha_usuario' => ['required','string','min:10','max:255','regex:/^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#¿?¡!*_\-$%^&+=]).*$/'],
         ]);
 
         $respuesta = new Respuesta();
@@ -276,7 +276,7 @@ class UserController extends Controller
             $usuario = Usuario::findOrFail($id);
 
             $usuario->nombre_usuario = $request->nombre_usuario;
-            $usuario->contrasenha_usuario = Hash::make($request->contrasenha_usuario);
+            //$usuario->contrasenha_usuario = Hash::make($request->contrasenha_usuario);
 
             $usuario->save();
             $respuesta->setRespuestaExito($respuesta, $usuario);

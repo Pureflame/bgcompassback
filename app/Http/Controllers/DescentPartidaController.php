@@ -276,6 +276,7 @@ class DescentPartidaController extends Controller
                 //dd($correo);
                 $partidaList = PartidasJuegos::where('correo_usuario' , $correo)->where('nombre_imagen', 'Descent')->get();
                 
+                
                 $respuesta->setRespuestaExito($respuesta, $partidaList);
                 
             } else {
@@ -290,6 +291,52 @@ class DescentPartidaController extends Controller
 
         return response()->json($respuesta);
     }
+
+
+    public function listarMisionesDescent(){
+
+        $respuesta = new Respuesta();
+
+        try{  
+                $misionList = MisionDc::select('nombre_mision_dc')->get();    
+                $respuesta->setRespuestaExito($respuesta, $misionList);
+
+                $count3 = 0;
+                foreach($misionList as $lista){
+                    //dd($carta->nombre_carta);
+                    $misionListaFinal[$count3] = $lista->nombre_mision_dc;
+                    $count3++;
+                }
+                $respuesta->setRespuestaExito($respuesta, $misionListaFinal);
+                
+        }catch(\Exception $e){
+            $respuesta->setRespuestaErrorElemento($respuesta);
+        }
+        return response()->json($respuesta);
+    }
+
+    public function listarCartasDescent(){
+
+        $respuesta = new Respuesta();
+
+        try{  
+                $misionList = CartaOverlordDc::select('nombre_carta')->get();    
+                $respuesta->setRespuestaExito($respuesta, $misionList);
+                
+                $count3 = 0;
+                foreach($misionList as $lista){
+                    //dd($carta->nombre_carta);
+                    $misionListaFinal[$count3] = $lista->nombre_carta;
+                    $count3++;
+                }
+                $respuesta->setRespuestaExito($respuesta, $misionListaFinal);
+                
+        }catch(\Exception $e){
+            $respuesta->setRespuestaErrorElemento($respuesta);
+        }
+        return response()->json($respuesta);
+    }
+
 
     ///////////////////////////////////////////////////////////////////////
     //////////////                UPDATE                     //////////////

@@ -22,6 +22,7 @@ class LoginController extends Controller
         $respuesta = new Respuesta();
         $comprobaciones = new Comprobaciones();
         $credenciales = array();
+        $data = [];  
 
         if($comprobaciones->checkCorreoAdmin($request->email)){
             
@@ -31,9 +32,13 @@ class LoginController extends Controller
 
             // Obtener el usuario que está realizando el login
             $user = Administrador::where('correo_admin', $request->email)->first();
-
+            $userId = Administrador::select('id')->where('correo_admin', $request->email)->first();
             $token = $user->createToken($request->email)->plainTextToken;
-            $respuesta->setLoginExitoAdmin($respuesta, $token);
+
+            $data[0] = $token;
+            $data[1] = $userId['id'];
+
+            $respuesta->setLoginExitoAdmin($respuesta, $data);
             //return response(["status"=>200, "Result"=>"LOGIN: Te has logueado correctamente","token"=>$token]);
             return response()->json($respuesta);
             //return response()->json(["token"=>$token],["Resultado"=>$respuesta]);
@@ -46,9 +51,16 @@ class LoginController extends Controller
 
             // Obtener el usuario que está realizando el login
             $user = Usuario::where('correo_usuario', $request->email)->first();
-
+            $userId = Usuario::select('id')->where('correo_usuario', $request->email)->first();
             $token = $user->createToken($request->email)->plainTextToken;
-            $respuesta->setLoginExitoUser($respuesta, $token);
+
+
+
+            $data[0] = $token;
+            $data[1] = $userId['id'];
+
+
+            $respuesta->setLoginExitoUser($respuesta, $data);
             //return response(["status"=>200, "Result"=>"LOGIN: Te has logueado correctamente","token"=>$token]);
             return response()->json($respuesta);
 
