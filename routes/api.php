@@ -77,8 +77,8 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 ///////////////////////////////////////////////////////////////////////
 
 // Menú Principal de Campañas y Foros - Listar Juegos de Mesa 
-Route::get('menu/partidas', [JuegosController::class, 'listarJuegos'])->middleware('')->name('menu.principal.partidas');
-Route::get('menu/foros', [JuegosController::class, 'listarForos'])->middleware('')->name('menu.principal.foros');
+//Route::get('menu/partidas', [JuegosController::class, 'listarJuegos'])->middleware('')->name('menu.principal.partidas');
+//Route::get('menu/foros', [JuegosController::class, 'listarForos'])->middleware('')->name('menu.principal.foros');
 
 // Usuario Perfil - Listar Partidas creadas de todos los juegos de un usuario
 Route::group(['middleware' => ['auth:sanctum']], function(){
@@ -86,14 +86,14 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 });
 
 // Usuario Perfil - Listar Discusiones del Foro de todos los juegos de un usuario
-Route::group(['middleware' => ['auth:sanctum']], function(){
-    Route::get('usuario-perfil/usuario/discusiones/{id}', [UserController::class, 'listarDiscusionesUsuario'])->middleware('')->name('usuarios.perfil.usuario.listar.discusiones');
-});
+//Route::group(['middleware' => ['auth:sanctum']], function(){
+//    Route::get('usuario-perfil/usuario/discusiones/{id}', [UserController::class, 'listarDiscusionesUsuario'])->middleware('')->name('usuarios.perfil.usuario.listar.discusiones');
+//});
 
 // Admin - Ver todas las Partidas creadas por un Usuario de todos los juegos
-Route::group(['middleware' => ['auth:sanctum']], function(){
-    Route::get('admin/partidas-usuario/{id}', [UserController::class, 'adminVerPartidasUsuario'])->middleware('')->name('admin.ver.partidas.usuario');
-});
+//Route::group(['middleware' => ['auth:sanctum']], function(){
+//    Route::get('admin/partidas-usuario/{id}', [UserController::class, 'adminVerPartidasUsuario'])->middleware('')->name('admin.ver.partidas.usuario');
+//});
 
 // Admin Perfil - Ver todas las Partidas creadas de todos los juegos
 Route::group(['middleware' => ['auth:sanctum']], function(){
@@ -119,9 +119,14 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::post('descent/partida', [DescentPartidaController::class, 'crearPartidaDescent'])->name('descent.partida.crear');
 });
 
-// Usuario - Listar Partidas de Descent
+// Admin - Listar todas las Partidas de Descent
 Route::group(['middleware' => ['auth:sanctum']], function(){
-    Route::get('descent/partidas/{id}', [DescentPartidaController::class, 'listarPartidasDescent'])->name('descent.partida.listar.partidas');
+    Route::get('descent/partidas', [DescentPartidaController::class, 'adminListarTodasLasPartidasDescent'])->name('descent.admin.listar.partidas');
+});
+
+// Usuario - Listar Partidas de Descent de un usuario
+Route::group(['middleware' => ['auth:sanctum']], function(){
+    Route::get('descent/partidas/{id}', [DescentPartidaController::class, 'listarPartidasDescentUsuario'])->name('descent.partida.listar.partidas');
 });
 
 // Usuario - Eliminar Partida de Descent (y todo lo que contiene)
@@ -194,7 +199,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('descent/foro/discusion/usuario', [DescentForoController::class, 'listarDiscusionesUsuarioForoDescent'])->name('descent.foro.ver.discusiones.usuario');
 });
 
-// Listar Discusiones en el foro
+// Listar las Discusiones en el foro de Descent
 Route::get('descent/foro/discusion', [DescentForoController::class, 'listarDiscusionesForoDescent'])->name('descent.foro.listar.discusiones');
 
 // Usuario - ¿Editar Discusión del foro?
@@ -242,7 +247,10 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 
 // Usuario - Eliminar Partida de Gloomhaven
 
-
+// Admin - Listar todas las Partidas de Descent
+//Route::group(['middleware' => ['auth:sanctum']], function(){
+//    Route::get('descent/partidas', [DescentPartidaController::class, 'adminListarTodasLasPartidasDescent'])->name('descent.admin.listar.partidas');
+//});
 
 
 /* Datos: 

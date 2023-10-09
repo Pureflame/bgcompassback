@@ -270,7 +270,7 @@ class DescentPartidaController extends Controller
     //////////////                READ_ALL                   //////////////
     ///////////////////////////////////////////////////////////////////////
 
-    public function listarPartidasDescent($id_usuario){
+    public function listarPartidasDescentUsuario($id_usuario){
 
         $respuesta = new Respuesta();
         $comprobaciones = new Comprobaciones();
@@ -292,6 +292,23 @@ class DescentPartidaController extends Controller
                 $respuesta->setRespuestaErrorSinPermisos($respuesta);
                 return response()->json($respuesta);
             }
+            
+        }catch(\Exception $e){
+            $respuesta->setRespuestaErrorElemento($respuesta);
+        }
+
+        return response()->json($respuesta);
+    }
+
+    public function adminListarTodasLasPartidasDescent(){
+
+        $respuesta = new Respuesta();
+        //$comprobaciones = new Comprobaciones();
+
+        try{  
+            $partidaList = PartidasJuegos::where('nombre_imagen', 'Descent')->get();    
+            $respuesta->setRespuestaExito($respuesta, $partidaList);
+
             
         }catch(\Exception $e){
             $respuesta->setRespuestaErrorElemento($respuesta);

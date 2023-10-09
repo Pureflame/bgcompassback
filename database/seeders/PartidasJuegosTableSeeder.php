@@ -36,5 +36,19 @@ class PartidasJuegosTableSeeder extends Seeder
             "nombre_imagen"=>"Descent"
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
+
+        DB::table('partidas_juegos')->insert([
+            "nombre_partida"=>"Partida Descent 4",
+            "correo_usuario"=>"pedrousuario@gmail.com",
+            "nombre_imagen"=>"Descent"
+        //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
+
+        DB::table('partidas_juegos')->insert([
+            "nombre_partida"=>"Partida Descent 5",
+            "correo_usuario"=>"pedrousuario@gmail.com",
+            "nombre_imagen"=>"Descent"
+        //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
     }
 }

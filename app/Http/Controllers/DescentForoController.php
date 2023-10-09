@@ -86,6 +86,7 @@ class DescentForoController extends Controller
                 $nombresDiscusiones[$count][0] = $discusion->id;
                 $nombresDiscusiones[$count][1] = $discusion->titulo_conversacion_dc;
                 $nombresDiscusiones[$count][2] = $usuario->nombre_usuario;
+                $nombresDiscusiones[$count][3] = "descent";
                 $count++;
             }
             $respuesta->setRespuestaExito($respuesta, $nombresDiscusiones);
@@ -118,6 +119,7 @@ class DescentForoController extends Controller
                 $nombresDiscusiones[$count][0] = $discusion->id;
                 $nombresDiscusiones[$count][1] = $discusion->titulo_conversacion_dc;
                 $nombresDiscusiones[$count][2] = $usuario->nombre_usuario;
+                $nombresDiscusiones[$count][3] = "descent";
                 $count++;
             }
             $respuesta->setRespuestaExito($respuesta, $nombresDiscusiones);

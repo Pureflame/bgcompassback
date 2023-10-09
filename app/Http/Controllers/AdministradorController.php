@@ -64,6 +64,7 @@ class AdministradorController extends Controller
                 $todasLasDiscusiones = [];
                 // DESCENT
                 $discusionesDescent = ConversacionDescent::all();
+                
                 //dd($discusionesDescent);
 
                 //dd($discusionesDescent[0]["id"]);
@@ -73,9 +74,14 @@ class AdministradorController extends Controller
                 
                 foreach($discusionesDescent as $discusionIndividual){
                     //dd($discusionIndividual);
-                    $todasLasDiscusiones[$count]["id_descent"] = $discusionIndividual["id"];
-                    $todasLasDiscusiones[$count]["titulo_conversacion"] = $discusionIndividual["titulo_conversacion_dc"];
-                    $todasLasDiscusiones[$count]["correo_usuario"] = $discusionIndividual["correo_usuario"];
+
+                    $usuario = Usuario::select('nombre_usuario')->where('correo_usuario', $discusionIndividual['correo_usuario'])->first();
+
+                    $todasLasDiscusiones[$count][0] = $discusionIndividual["id"];
+                    $todasLasDiscusiones[$count][1] = $discusionIndividual["titulo_conversacion_dc"];
+                    $todasLasDiscusiones[$count][2] = $usuario->nombre_usuario;
+                    $todasLasDiscusiones[$count][3] = "descent";
+                    
                     $count++;
                 }
 
@@ -92,6 +98,7 @@ class AdministradorController extends Controller
                     $todasLasDiscusiones[$count]["id_gh"] = $discusionIndividual["id"];
                     $todasLasDiscusiones[$count]["titulo_conversacion"] = $discusionIndividual["titulo_conversacion_gh"];
                     $todasLasDiscusiones[$count]["correo_usuario"] = $discusionIndividual["correo_usuario"];
+                    $todasLasDiscusiones[$count]["nombre_juego"] = "gloomhaven";
                     $count++;
                 }
 */
