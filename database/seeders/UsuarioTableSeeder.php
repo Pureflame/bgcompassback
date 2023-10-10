@@ -18,7 +18,7 @@ class UsuarioTableSeeder extends Seeder
     public function run()
     {
         DB::table('usuarios')->insert([
-            "correo_usuario"=>"manolitogafas@gmail.com",            
+            "correo_usuario"=>"manolousuario@gmail.com",            
             "nombre_usuario"=>"Manolo",
             "contrasenha_usuario"=>Hash::make("Pisswoa0*64"),
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
@@ -46,7 +46,7 @@ class UsuarioTableSeeder extends Seeder
         ]);
 
         DB::table('usuarios')->insert([
-            "correo_usuario"=>"osoabrazos@gmail.com",            
+            "correo_usuario"=>"osodelartico@gmail.com",            
             "nombre_usuario"=>"Sara",
             "contrasenha_usuario"=>Hash::make("C0s4ocul!a4567"),
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),

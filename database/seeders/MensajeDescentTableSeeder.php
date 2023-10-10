@@ -35,7 +35,7 @@ class MensajeDescentTableSeeder extends Seeder
         DB::table('mensaje_descents')->insert([
             "texto_mensaje_dc"=>"Texto mensaje 3", 
             "id_conversacion_dc"=>"1",     
-            "correo_usuario"=>"manolitogafas@gmail.com",       
+            "correo_usuario"=>"manolousuario@gmail.com",       
 
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
@@ -43,7 +43,7 @@ class MensajeDescentTableSeeder extends Seeder
         DB::table('mensaje_descents')->insert([
             "texto_mensaje_dc"=>"Texto mensaje 4", 
             "id_conversacion_dc"=>"2",    
-            "correo_usuario"=>"manolitogafas@gmail.com",        
+            "correo_usuario"=>"manolousuario@gmail.com",        
 
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
