@@ -161,6 +161,7 @@ class DescentPartidaController extends Controller
         return response()->json($respuesta);
     }
 
+    // Todos los héroes de la partida
     public function verHeroePartidaDescent($id_partida_descent){
 
         $respuesta = new Respuesta();
@@ -686,7 +687,7 @@ class DescentPartidaController extends Controller
         // 4- Mostrar toda la información
         $dataNueva[0] = $heroe->id;
         $dataNueva[1] = $habilidadesHeroe->clases()->allRelatedIds();
-        $dataNueva[2] = $equipoHeroe->clases()->allRelatedIds();
+        $dataNueva[2] = $equipoHeroe->equipamientos()->allRelatedIds();
         //dd($dataNueva);
         return $dataNueva;
     }

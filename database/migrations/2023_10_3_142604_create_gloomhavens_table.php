@@ -22,6 +22,7 @@ return new class extends Migration
 
             $table->unsignedBigInteger('id_mision_gh');
             $table->foreign('id_mision_gh')->references('id')->on('mision_ghs');
+            
         });
     }
 

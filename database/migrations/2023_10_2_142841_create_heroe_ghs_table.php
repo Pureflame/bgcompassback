@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('heroe_ghs', function (Blueprint $table) {
             $table->id();
-            $table->string('clase_heroe_dc');
+            $table->string('clase_heroe_gh');
         });
     }
 

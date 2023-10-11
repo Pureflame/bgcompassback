@@ -16,49 +16,49 @@ class LogrosPartyGloomhavenTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('logros_party_ghs')->insert([
+        DB::table('logro_grupo_gh_party_gh')->insert([
             "party_gh_id"=>"1", 
             "logro_grupo_gh_id"=>"1",            
 
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
-        DB::table('logros_party_ghs')->insert([
+        DB::table('logro_grupo_gh_party_gh')->insert([
             "party_gh_id"=>"2", 
             "logro_grupo_gh_id"=>"1",            
 
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
-        DB::table('logros_party_ghs')->insert([
+        DB::table('logro_grupo_gh_party_gh')->insert([
             "party_gh_id"=>"3", 
             "logro_grupo_gh_id"=>"1",            
 
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
-        DB::table('logros_party_ghs')->insert([
+        DB::table('logro_grupo_gh_party_gh')->insert([
             "party_gh_id"=>"1", 
             "logro_grupo_gh_id"=>"2",            
 
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
-        DB::table('logros_party_ghs')->insert([
+        DB::table('logro_grupo_gh_party_gh')->insert([
             "party_gh_id"=>"2", 
             "logro_grupo_gh_id"=>"2",            
 
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
-        DB::table('logros_party_ghs')->insert([
+        DB::table('logro_grupo_gh_party_gh')->insert([
             "party_gh_id"=>"3", 
             "logro_grupo_gh_id"=>"2",            
 
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
-        DB::table('logros_party_ghs')->insert([
+        DB::table('logro_grupo_gh_party_gh')->insert([
             "party_gh_id"=>"4", 
             "logro_grupo_gh_id"=>"3",            
 

@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('logros_partida_ghs', function (Blueprint $table) {
+        Schema::create('gloomhaven_logro_global_gh', function (Blueprint $table) {
             $table->unsignedBigInteger('logro_global_gh_id');
             $table->unsignedBigInteger('gloomhaven_id');
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('logros_partida_ghs');
+        Schema::dropIfExists('gloomhaven_logro_global_gh');
     }
 };

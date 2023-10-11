@@ -278,11 +278,13 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
 // Usuario - Listar las tablas con valores fijos
 // REVISAR ESTOS NOMBRES Y ACTUALIZARLOS A LAS TABLAS DE GLOOMHAVEN, ESTOS SON DE DESCENT
 Route::get('gloomhaven/misiones/lista', [GloomhavenPartidaController::class, 'listarMisionesGloomhaven'])->name('gloomhaven.misiones.listar');
-Route::get('gloomhaven/cartas/lista', [GloomhavenPartidaController::class, 'listarCartasGloomhaven'])->name('gloomhaven.misiones.listar');
+Route::get('gloomhaven/logros-globales/lista', [GloomhavenPartidaController::class, 'listarLogrosGlobalesGloomhaven'])->name('gloomhaven.logrosglobales.listar');
+Route::get('gloomhaven/misiones-personales/lista', [GloomhavenPartidaController::class, 'listarMisionesPersonalesGloomhaven'])->name('gloomhaven.misionespersonales.listar');
+Route::get('gloomhaven/logros-grupo/lista', [GloomhavenPartidaController::class, 'listarLogrosGrupoGloomhaven'])->name('gloomhaven.logrosgrupo.listar');
+Route::get('gloomhaven/pericias/lista', [GloomhavenPartidaController::class, 'listarPericiasGloomhaven'])->name('gloomhaven.pericias.listar');
 Route::get('gloomhaven/heroes/lista', [GloomhavenPartidaController::class, 'listarHeroesGloomhaven'])->name('gloomhaven.heroes.listar');
-Route::get('gloomhaven/equipo/lista', [GloomhavenPartidaController::class, 'listarEquipoGloomhaven'])->name('gloomhaven.equipo.listar');
 Route::get('gloomhaven/habilidades/lista', [GloomhavenPartidaController::class, 'listarHabilidadesGloomhaven'])->name('gloomhaven.habilidades.listar');
-
+Route::get('gloomhaven/equipo/lista', [GloomhavenPartidaController::class, 'listarEquipoGloomhaven'])->name('gloomhaven.equipo.listar');
 
 
 // Usuario - Crear Heroe Partida de Gloomhaven

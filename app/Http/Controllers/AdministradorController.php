@@ -16,6 +16,7 @@ use App\Library\Comprobaciones;
 use App\Models\CartaOverlordDc;
 use App\Models\ClaseDc;
 use App\Models\ConversacionDescent;
+use App\Models\ConversacionGloomhaven;
 use App\Models\Descent;
 use App\Models\EquipamientoDc;
 use App\Models\HeroeDc;
@@ -90,7 +91,7 @@ class AdministradorController extends Controller
                 
                 
                 // GLOOMHAVEN
-/*
+
                 $discusionesGloomhaven = ConversacionGloomhaven::all();
 
                 foreach($discusionesGloomhaven as $discusionIndividual){
@@ -101,7 +102,7 @@ class AdministradorController extends Controller
                     $todasLasDiscusiones[$count]["nombre_juego"] = "gloomhaven";
                     $count++;
                 }
-*/
+
                 $respuesta->setRespuestaExito($respuesta, $todasLasDiscusiones);
                 
             } else {

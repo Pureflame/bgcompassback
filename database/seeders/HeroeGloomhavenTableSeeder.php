@@ -17,25 +17,25 @@ class HeroeGloomhavenTableSeeder extends Seeder
     public function run()
     {
         DB::table('heroe_ghs')->insert([
-            "clase_heroe_dc"=>"Salvaje",        
+            "clase_heroe_gh"=>"Salvaje",        
 
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
         DB::table('heroe_ghs')->insert([
-            "clase_heroe_dc"=>"Ladrona Mental",        
+            "clase_heroe_gh"=>"Ladrona Mental",        
 
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
         DB::table('heroe_ghs')->insert([
-            "clase_heroe_dc"=>"Pícara",        
+            "clase_heroe_gh"=>"Pícara",        
 
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
         DB::table('heroe_ghs')->insert([
-            "clase_heroe_dc"=>"Tejedora de Hechizos",        
+            "clase_heroe_gh"=>"Tejedora de Hechizos",        
 
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
         ]);

@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('pericia_party_ghs', function (Blueprint $table) {
+        Schema::create('logro_grupo_gh_party_gh', function (Blueprint $table) {
             $table->unsignedBigInteger('party_gh_id');
-            $table->unsignedBigInteger('pericia_gh_id');
-
+            $table->unsignedBigInteger('logro_grupo_gh_id');
+            
             $table->foreign('party_gh_id')->references('id')->on('party_ghs')->cascadeOnDelete();
-            $table->foreign('pericia_gh_id')->references('id')->on('pericia_ghs');
+            $table->foreign('logro_grupo_gh_id')->references('id')->on('logro_grupo_ghs');
+            
         });
     }
 
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pericia_party_ghs');
+        Schema::dropIfExists('logro_grupo_gh_party_gh');
     }
 };

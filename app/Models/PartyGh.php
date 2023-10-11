@@ -32,11 +32,11 @@ class PartyGh extends Model
         return $this->belongsToMany(EquipamientoGh::class);
     }
 
-    public function habilidad(){
+    public function habilidades(){
         return $this->belongsToMany(HabilidadGh::class);
     }
 
-    public function pericia(){
+    public function pericias(){
         return $this->belongsToMany(PericiaGh::class);
     }
 

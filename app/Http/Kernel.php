@@ -67,6 +67,8 @@ class Kernel extends HttpKernel
         'registerAdmin.validate' => \App\Http\Middleware\Register\RegisterAdminValidate::class,
         'registerUsuario.validate' => \App\Http\Middleware\Register\RegisterUsuarioValidate::class,
         'descentGeneral.validate' => \App\Http\Middleware\partidaGeneralDescentValidate::class,
-        'descentHeroe.validate' => \App\Http\Middleware\partidaHeroeDescentValidate::class
+        'descentHeroe.validate' => \App\Http\Middleware\partidaHeroeDescentValidate::class,
+        'gloomhavenGeneral.validate'=> \App\Http\Middleware\partidaGeneralGloomhavenValidate::class
+        //'gloomhavenHeroe.validate' => \App\Http\Middleware\partidaHeroeGloomhavenValidate::class
     ];
 }

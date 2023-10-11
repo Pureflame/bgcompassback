@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('equipamiento_party_ghs', function (Blueprint $table) {
+        Schema::create('habilidad_gh_party_gh', function (Blueprint $table) {
             $table->unsignedBigInteger('party_gh_id');
-            $table->unsignedBigInteger('equipamiento_gh_id');
+            $table->unsignedBigInteger('habilidad_gh_id');
 
             $table->foreign('party_gh_id')->references('id')->on('party_ghs')->cascadeOnDelete();
-            $table->foreign('equipamiento_gh_id')->references('id')->on('equipamiento_ghs');
+            $table->foreign('habilidad_gh_id')->references('id')->on('habilidad_ghs');
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('equipamiento_party_ghs');
+        Schema::dropIfExists('habilidad_gh_party_gh');
     }
 };

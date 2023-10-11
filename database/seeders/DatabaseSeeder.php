@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
+            
             AdministradorTableSeeder::class,
             UsuarioTableSeeder::class,
             ImagenesJuegosTableSeeder::class,
@@ -38,27 +39,44 @@ class DatabaseSeeder extends Seeder
             MensajeDescentTableSeeder::class,
 
 
+            ConversacionGloomhavenTableSeeder::class,
+            MisionGloomhavenTableSeeder::class,
+            LogroGlobalGloomhavenTableSeeder::class,
+            LogroGrupoGloomhavenTableSeeder::class,
 
+            MisionPersonalGloomhavenTableSeeder::class,
+            PericiaGloomhavenTableSeeder::class,
+            HeroeGloomhavenTableSeeder::class,
+            HabilidadGloomhavenTableSeeder::class,
+            EquipamientoGloomhavenTableSeeder::class,
+            MensajeGloomhavenTableSeeder::class,
+            GloomhavenTableSeeder::class,
 
+            PartyGloomhavenTableSeeder::class,
+
+            LogrosPartidaGloomhavenTableSeeder::class,
+            PericiaPartyGloomhavenTableSeeder::class,
+            HabilidadPartyGloomhavenTableSeeder::class,
+            EquipamientoPartyGloomhavenTableSeeder::class,
+            LogrosPartyGloomhavenTableSeeder::class,
             //METER AQUI TODAS LAS TABLAS GH DE SEEDER
 /*
-            ConversacionGloomhavenTableSeeder::class
-            EquipamientoGloomhavenTableSeeder::class
-            EquipamientoPartyGloomhavenTableSeeder::class
-            GloomhavenTableSeeder::class
-            HabilidadGloomhavenTableSeeder::class
-            HabilidadPartyGloomhavenTableSeeder::class
-            HeroeGloomhavenTableSeeder::class
-            LogroGlobalGloomhavenTableSeeder::class
-            LogroGrupoGloomhavenTableSeeder::class
-            LogrosPartidaGloomhavenTableSeeder::class
-            LogrosPartyGloomhavenTableSeeder::class
-            MensajeGloomhavenTableSeeder::class
-            MisionGloomhavenTableSeeder::class
-            MisionPersonalGloomhavenTableSeeder::class
-            PartyGloomhavenTableSeeder::class
-            PericiaGloomhavenTableSeeder::class
-            PericiaPartyGloomhavenTableSeeder::class      
+           
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+                  
 */        
         ]);
     }

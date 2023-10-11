@@ -53,14 +53,14 @@ class PartidasJuegosTableSeeder extends Seeder
 
         DB::table('partidas_juegos')->insert([
             "nombre_partida"=>"Partida Gloomhaven 1",
-            "correo_usuario"=>"pedrousuario@gmail.com",
+            "correo_usuario"=>"joseuser@gmail.com",
             "nombre_imagen"=>"Gloomhaven"
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
         DB::table('partidas_juegos')->insert([
             "nombre_partida"=>"Partida Gloomhaven 2",
-            "correo_usuario"=>"pedrousuario@gmail.com",
+            "correo_usuario"=>"joseuser@gmail.com",
             "nombre_imagen"=>"Gloomhaven"
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
