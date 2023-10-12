@@ -96,10 +96,10 @@ class AdministradorController extends Controller
 
                 foreach($discusionesGloomhaven as $discusionIndividual){
                     //dd($discusionIndividual);
-                    $todasLasDiscusiones[$count]["id_gh"] = $discusionIndividual["id"];
-                    $todasLasDiscusiones[$count]["titulo_conversacion"] = $discusionIndividual["titulo_conversacion_gh"];
-                    $todasLasDiscusiones[$count]["correo_usuario"] = $discusionIndividual["correo_usuario"];
-                    $todasLasDiscusiones[$count]["nombre_juego"] = "gloomhaven";
+                    $todasLasDiscusiones[$count][0] = $discusionIndividual["id"];
+                    $todasLasDiscusiones[$count][1] = $discusionIndividual["titulo_conversacion_gh"];
+                    $todasLasDiscusiones[$count][2] = $discusionIndividual["correo_usuario"];
+                    $todasLasDiscusiones[$count][3] = "gloomhaven";
                     $count++;
                 }
 

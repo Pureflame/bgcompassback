@@ -64,12 +64,16 @@ class GloomhavenPartidaController extends Controller
 
 
 
-    public function crearHeroePartidaGloomhaven($id_partida_gloomhaven){
+    public function crearHeroePartidaGloomhaven($id_partida){
 
         $respuesta = new Respuesta();
-
-        try{
-
+        
+        //try{
+            $aux_partida = Gloomhaven::select('id')->where('id_partida_general', $id_partida)->first();
+            
+            $id_partida_gloomhaven = $aux_partida->id;
+    
+            
             $partidaGloomhaven = Gloomhaven::find($id_partida_gloomhaven);
             $maximodeHeroes = PartyGh::where('id_partida_gh' , $partidaGloomhaven->id)->get();
             $reputacionHeroe = 0;
@@ -86,6 +90,8 @@ class GloomhavenPartidaController extends Controller
             } else{
                 $reputacionHeroe = 0;
             }
+            
+            
             
             $party->id_partida_gh = $partidaGloomhaven->id;
             
@@ -107,9 +113,9 @@ class GloomhavenPartidaController extends Controller
             
 
 
-        } catch(\Exception $e){
-            $respuesta->setRespuestaErrorGeneral($respuesta);
-        }
+       // } catch(\Exception $e){
+        //    $respuesta->setRespuestaErrorGeneral($respuesta);
+        //}
 
         return response()->json($respuesta);
     }
@@ -122,7 +128,7 @@ class GloomhavenPartidaController extends Controller
     //////////////                 READ                      //////////////
     ///////////////////////////////////////////////////////////////////////
 
-    public function verGeneralPartidaGloomhaven($id_partida_gloomhaven){
+    public function verGeneralPartidaGloomhaven($id_partida){
 
         // Información de la tabla Gloomhaven, Mision y Logros Globales
 
@@ -131,6 +137,9 @@ class GloomhavenPartidaController extends Controller
         $data = [];
 
         // 1- Obtener datos generales de la partida
+        $aux_partida = Gloomhaven::select('id')->where('id_partida_general', $id_partida)->first();
+        $id_partida_gloomhaven = $aux_partida->id;
+
         $partidaGloomhaven = Gloomhaven::find($id_partida_gloomhaven);
         //dd($partidaGloomhaven->logrosGlobales()->first());
         try{  
@@ -187,13 +196,16 @@ class GloomhavenPartidaController extends Controller
 
 
     // Todos los héroes de la partida
-    public function verHeroePartidaGloomhaven($id_partida_gloomhaven){
+    public function verHeroePartidaGloomhaven($id_partida){
 
         $respuesta = new Respuesta();
         $comprobaciones = new Comprobaciones();
         $data = [];
 
         // 1- Obtener datos generales de la partida
+        $aux_partida = Gloomhaven::select('id')->where('id_partida_general', $id_partida)->first();
+        $id_partida_gloomhaven = $aux_partida->id;
+
         $partidaGloomhaven = Gloomhaven::find($id_partida_gloomhaven);
 
         //try{  
@@ -214,10 +226,11 @@ class GloomhavenPartidaController extends Controller
                 $count = 0;
                 foreach($arrayParties as $heroeIndividual){
                     $nombreHeroe = [];
-                    $nombreClase = [];
+                    $nombreClase = "";
                     $habilidades = [];
                     $equipamientos = [];
                     $pericias = [];
+                    $logrosGrupo = [];
 
                     // Nombre del héroe
                     //$aux = PartyGh::find($heroeIndividual->id);
@@ -243,9 +256,11 @@ class GloomhavenPartidaController extends Controller
                         $auxtituloClase = HabilidadGh::select('clase_habilidad_gh')->where('nombre_habilidad_gh' , $habilidades[0])->first();
                         $nombreClaseSegunHabilidades = $auxtituloClase->clase_habilidad_gh;
 
-                        $nombreClase = HeroeGh::select('clase_heroe_gh')->where('clase_heroe_gh', $nombreClaseSegunHabilidades)->first();
+                        $auxclase = HeroeGh::select('clase_heroe_gh')->where('clase_heroe_gh', $nombreClaseSegunHabilidades)->first();
+                        $nombreClase = $auxclase->clase_heroe_gh;
+                        //dd($nombreClase);
                     }
-                    
+                    //
                     // Equipamiento del héroe
                     if(!$aux->equipamientos()->first()){
                         
@@ -280,6 +295,23 @@ class GloomhavenPartidaController extends Controller
                         }
                     }
 
+                    // Logros del grupo del héroe
+                    if(!$aux->logrosGrupo()->first()){
+
+                        $logrosGrupo[0] = "";
+
+                    } else{
+                    
+                    $aux = PartyGh::find($heroeIndividual->id);
+                    
+                    $count5 = 0;
+                        foreach($aux->logrosGrupo()->get() as $logro){
+                            //dd($carta->nombre_carta);
+                            $logrosGrupo[$count5] = $logro->titulo_logro_grupo_gh;
+                            $count5++;
+                        }
+                    }
+
                     // Misión personal del héroe
                     $auxM = MisionPersonalGh::find($heroeIndividual->id_mision_personal_gh);
                     $misionPersonalHeroe = $auxM->nombre_mision_personal_gh;
@@ -292,7 +324,7 @@ class GloomhavenPartidaController extends Controller
                     $data[$count][1] = $heroeIndividual->grupo_party_gh;
                     $data[$count][2] = $heroeIndividual->id_heroe_gh;
                     $data[$count][3] = $heroeIndividual->nombre_party_gh;
-                    $data[$count][4] = $nombreClase->clase_heroe_gh;
+                    $data[$count][4] = $nombreClase;
                     $data[$count][5] = $heroeIndividual->experiencia_party_gh;
                     $data[$count][6] = $heroeIndividual->reputacion_party_gh;
                     $data[$count][7] = $heroeIndividual->oro_party_gh;
@@ -301,6 +333,7 @@ class GloomhavenPartidaController extends Controller
                     $data[$count][10] = $habilidades;
                     $data[$count][11] = $equipamientos;
                     $data[$count][12] = $pericias;
+                    $data[$count][13] = $logrosGrupo;
 
                     $count++;
                 }
@@ -559,7 +592,7 @@ class GloomhavenPartidaController extends Controller
     //////////////                UPDATE                     //////////////
     ///////////////////////////////////////////////////////////////////////
 
-    public function actualizarGeneralPartidaGloomhaven(Request $request, $id_partida_gloomhaven){
+    public function actualizarGeneralPartidaGloomhaven(Request $request, $id_partida){
 
         $respuesta = new Respuesta();
         $comprobaciones = new Comprobaciones();
@@ -567,6 +600,10 @@ class GloomhavenPartidaController extends Controller
         $dataNueva = [];  
 
         // 1- Obtener datos generales de la partida
+
+        $aux_partida = Gloomhaven::select('id')->where('id_partida_general', $id_partida)->first();
+        $id_partida_gloomhaven = $aux_partida->id;
+
         $partidaGloomhaven = Gloomhaven::find($id_partida_gloomhaven);
    
         try{  
@@ -630,7 +667,7 @@ class GloomhavenPartidaController extends Controller
 
     // $request["heroes"][????] -> la info general del heroe
     // $request["grupos"][????] -> id, reputacion y logros
-    public function actualizarTodosHeroePartidaGloomhaven(Request $request, $id_partida_gloomhaven){
+    public function actualizarTodosHeroePartidaGloomhaven(Request $request, $id_partida){
 
         $respuesta = new Respuesta();
         $comprobaciones = new Comprobaciones();
@@ -641,6 +678,9 @@ class GloomhavenPartidaController extends Controller
         // id_heroe_gh = es el tipo de heroe diferente,
         
         // 1- Obtener datos generales de la partida
+        $aux_partida = Gloomhaven::select('id')->where('id_partida_general', $id_partida)->first();
+        $id_partida_gloomhaven = $aux_partida->id;
+
         $partidaGloomhaven = Gloomhaven::find($id_partida_gloomhaven);
 
         // Usuario con sesión iniciada posee la partida
@@ -920,7 +960,7 @@ class GloomhavenPartidaController extends Controller
     ///////////////////////////////////////////////////////////////////////
 
 
-    public function eliminarPartidaGloomhaven($id_partida_gloomhaven){
+    public function eliminarPartidaGloomhaven($id_partida){
 
         $respuesta = new Respuesta();
         $comprobaciones = new Comprobaciones();
@@ -928,6 +968,8 @@ class GloomhavenPartidaController extends Controller
         try{
             
             if($comprobaciones->checkActualUserIsUser()){
+                $aux_partida = Gloomhaven::select('id')->where('id_partida_general', $id_partida)->first();
+                $id_partida_gloomhaven = $aux_partida->id;
                 
                 $partidaGloomhaven = Gloomhaven::findOrFail($id_partida_gloomhaven);
                 $partida = PartidasJuegos::findOrFail($partidaGloomhaven->id_partida_general);

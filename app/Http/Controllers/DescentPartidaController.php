@@ -66,11 +66,13 @@ class DescentPartidaController extends Controller
         return response()->json($respuesta);
     }
 
-    public function crearHeroePartidaDescent($id_partida_descent){
+    public function crearHeroePartidaDescent($id_partida){
 
         $respuesta = new Respuesta();
 
         try{
+            $aux_partida = Descent::select('id')->where('id_partida_general', $id_partida)->first();
+            $id_partida_descent = $aux_partida->id;
 
             $partidaDescent = Descent::find($id_partida_descent);
             $maximodeHeroes = PartyDc::where('id_partida_dc' , $partidaDescent->id)->get();
@@ -101,13 +103,16 @@ class DescentPartidaController extends Controller
     ///////////////////////////////////////////////////////////////////////
 
 
-    public function verGeneralPartidaDescent($id_partida_descent){
+    public function verGeneralPartidaDescent($id_partida){
 
         $respuesta = new Respuesta();
         $comprobaciones = new Comprobaciones();
         $data = [];
 
         // 1- Obtener datos generales de la partida
+        $aux_partida = Descent::select('id')->where('id_partida_general', $id_partida)->first();
+        $id_partida_descent = $aux_partida->id;
+
         $partidaDescent = Descent::find($id_partida_descent);
 
         try{  
@@ -162,13 +167,16 @@ class DescentPartidaController extends Controller
     }
 
     // Todos los héroes de la partida
-    public function verHeroePartidaDescent($id_partida_descent){
+    public function verHeroePartidaDescent($id_partida){
 
         $respuesta = new Respuesta();
         $comprobaciones = new Comprobaciones();
         $data = [];
 
         // 1- Obtener datos generales de la partida
+        $aux_partida = Descent::select('id')->where('id_partida_general', $id_partida)->first();
+        $id_partida_descent = $aux_partida->id;
+
         $partidaDescent = Descent::find($id_partida_descent);
 
         try{  
@@ -435,7 +443,7 @@ class DescentPartidaController extends Controller
     ///////////////////////////////////////////////////////////////////////
 
 
-    public function actualizarGeneralPartidaDescent(Request $request, $id_partida_descent){
+    public function actualizarGeneralPartidaDescent(Request $request, $id_partida){
 
         $respuesta = new Respuesta();
         $comprobaciones = new Comprobaciones();
@@ -443,6 +451,9 @@ class DescentPartidaController extends Controller
         $dataNueva = [];  
 
         // 1- Obtener datos generales de la partida
+        $aux_partida = Descent::select('id')->where('id_partida_general', $id_partida)->first();
+        $id_partida_descent = $aux_partida->id;
+
         $partidaDescent = Descent::find($id_partida_descent);
    
         try{  
@@ -505,7 +516,7 @@ class DescentPartidaController extends Controller
 
     
 
-    public function actualizarTodosHeroePartidaDescent(Request $request, $id_partida_descent){
+    public function actualizarTodosHeroePartidaDescent(Request $request, $id_partida){
 
         $respuesta = new Respuesta();
         $comprobaciones = new Comprobaciones();
@@ -516,6 +527,9 @@ class DescentPartidaController extends Controller
         // id_heroe_dc = es el tipo de heroe diferente,
         
         // 1- Obtener datos generales de la partida
+        $aux_partida = Descent::select('id')->where('id_partida_general', $id_partida)->first();
+        $id_partida_descent = $aux_partida->id;
+
         $partidaDescent = Descent::find($id_partida_descent);
 
         // Usuario con sesión iniciada posee la partida
@@ -697,7 +711,7 @@ class DescentPartidaController extends Controller
     //////////////                DELETE                     //////////////
     ///////////////////////////////////////////////////////////////////////
 
-    public function eliminarPartidaDescent($id_partida_descent){
+    public function eliminarPartidaDescent($id_partida){
 
         $respuesta = new Respuesta();
         $comprobaciones = new Comprobaciones();
@@ -705,6 +719,8 @@ class DescentPartidaController extends Controller
         try{
             
             if($comprobaciones->checkActualUserIsUser()){
+                $aux_partida = Descent::select('id')->where('id_partida_general', $id_partida)->first();
+                $id_partida_descent = $aux_partida->id;
                 
                 $partidaDescent = Descent::findOrFail($id_partida_descent);
                 $partida = PartidasJuegos::findOrFail($partidaDescent->id_partida_general);
