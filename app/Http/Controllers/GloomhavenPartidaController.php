@@ -50,7 +50,7 @@ class GloomhavenPartidaController extends Controller
             $gloomhaven->save();
              
              
-            $this->crearHeroePartidaGloomhaven($gloomhaven->id);
+            $this->crearHeroePartidaGloomhaven($gloomhaven->id_partida_general);
 
             $respuesta->setRespuestaExito($respuesta, $partida);
 
@@ -64,21 +64,23 @@ class GloomhavenPartidaController extends Controller
 
 
 
-    public function crearHeroePartidaGloomhaven($id_partida){
-
+    public function crearHeroePartidaGloomhaven($id_partida_general){
+       
         $respuesta = new Respuesta();
         
         //try{
-            $aux_partida = Gloomhaven::select('id')->where('id_partida_general', $id_partida)->first();
-            
-            $id_partida_gloomhaven = $aux_partida->id;
+            //$aux_partida = Gloomhaven::select('id')->where('id_partida_general', $id_partida)->first();
+            //dd($id_partida);
+            //$id_partida_gloomhaven = $aux_partida->id;
     
             
-            $partidaGloomhaven = Gloomhaven::find($id_partida_gloomhaven);
+            //$partidaGloomhaven = Gloomhaven::find($id_partida);
+            $partidaGloomhaven = Gloomhaven::where('id_partida_general', $id_partida_general)->first();
+            
             $maximodeHeroes = PartyGh::where('id_partida_gh' , $partidaGloomhaven->id)->get();
             $reputacionHeroe = 0;
-
-            
+            //dd($partidaGloomhaven);
+           
             $party = new PartyGh();
 
             // La reputacion pertenece al grupo de la party
@@ -86,12 +88,12 @@ class GloomhavenPartidaController extends Controller
             // Buscamos a un miembros del grupo 1 y le ponemos su misma reputacion
             $reputacionGrupo = PartyGh::select('reputacion_party_gh')->where('grupo_party_gh' , 1)->first();
             if($reputacionGrupo != null){
-                $reputacionHeroe = $reputacionGrupo;
+                $party->reputacion_party_gh = $reputacionGrupo->reputacion_party_gh;
             } else{
-                $reputacionHeroe = 0;
+                $party->reputacion_party_gh = 0;
             }
             
-            
+            //dd($reputacionHeroe);
             
             $party->id_partida_gh = $partidaGloomhaven->id;
             
@@ -101,7 +103,7 @@ class GloomhavenPartidaController extends Controller
             $party->nombre_party_gh = "nombre";
             $party->experiencia_party_gh = 0;
             
-            $party->reputacion_party_gh = $reputacionHeroe->reputacion_party_gh;
+            
             $party->oro_party_gh = 0;
             
             $party->marcas_party_gh = 0;
@@ -253,10 +255,10 @@ class GloomhavenPartidaController extends Controller
                         }
     
                         // Nombre de la clase (quizá no es necesario pero lo dejo por si a caso)
-                        $auxtituloClase = HabilidadGh::select('clase_habilidad_gh')->where('nombre_habilidad_gh' , $habilidades[0])->first();
-                        $nombreClaseSegunHabilidades = $auxtituloClase->clase_habilidad_gh;
+                        //$auxtituloClase = HabilidadGh::select('clase_habilidad_gh')->where('nombre_habilidad_gh' , $habilidades[0])->first();
+                        //$nombreClaseSegunHabilidades = $auxtituloClase->clase_habilidad_gh;
 
-                        $auxclase = HeroeGh::select('clase_heroe_gh')->where('clase_heroe_gh', $nombreClaseSegunHabilidades)->first();
+                        $auxclase = HeroeGh::select('clase_heroe_gh')->where('id', $heroeIndividual->id_heroe_gh)->first();
                         $nombreClase = $auxclase->clase_heroe_gh;
                         //dd($nombreClase);
                     }
@@ -527,13 +529,14 @@ class GloomhavenPartidaController extends Controller
         $respuesta = new Respuesta();
 
         try{  
-                $misionList = HeroeGh::select('clase_heroe_gh')->get();    
+                $misionList = HeroeGh::get();    
                 $respuesta->setRespuestaExito($respuesta, $misionList);
                 
                 $count3 = 0;
                 foreach($misionList as $lista){
                     //dd($carta->nombre_carta);
-                    $misionListaFinal[$count3] = $lista->clase_heroe_gh;
+                    $misionListaFinal[$count3][0] = $lista->id;
+                    $misionListaFinal[$count3][1] = $lista->clase_heroe_gh;
                     $count3++;
                 }
                 $respuesta->setRespuestaExito($respuesta, $misionListaFinal);
@@ -741,7 +744,7 @@ class GloomhavenPartidaController extends Controller
             }*/
             
             
-
+            //dd($todosLosHeroesUpdateId);
             // Buscar los ID de los heroes actuales en los actualizados.
             // Si no se encuentra uno significa que se han borrado, y por tanto lo debemos borrar.
             $count3 = 0;
@@ -756,56 +759,91 @@ class GloomhavenPartidaController extends Controller
                 }
                 $count3++;
             }
+
+            // Buscar los ID de los heroes actualizados en los actuales.
+            // Si no se encuentra uno significa que no existia, y por tanto lo debemos crearlo.
+            $count5 = 0;
+            foreach($todosLosHeroesUpdateId as $heroeActualId){
+                
+                if(!in_array($heroeActualId, $todosLosHeroesActualesId)) {
+
+                    $this->crearHeroePartidaGloomhaven($id_partida_gloomhaven);
+                    //dd("hi");
+                    $ultimoHeroe = PartyGh::orderBy('id', 'DESC')->first();
+                    //dd($ultimoHeroe);
+                    $todosLosHeroesUpdateId[$count5] = $ultimoHeroe->id;
+                }
+                $count5++;
+            }
+
+            //dd($todosLosHeroesUpdateId);
+
+
             
             // -- Los que no han sido borrados existen, y por tanto se van a actualizar
             $count = 0;
             while(count($request["heroes"]) > $count){
        
                 //$todosLosHeroesId[$count] = $this->actualizarHeroePartidaDescent($request["heroes"][$count], $id_partida_gloomhaven);
-                $this->actualizarHeroePartidaDescent($request["heroes"][$count], $id_partida_gloomhaven);
+                $heroeActual = $request["heroes"][$count];
+                $heroeActual["id"] = $todosLosHeroesUpdateId[$count];
+                $this->actualizarHeroePartidaGloomhaven($heroeActual, $id_partida_gloomhaven);
                 
                 $count++;
             }
             //dd("actualiza pre-grupos");
+
 
             //Actualizar la reputación y logros del grupo de cada héroe
             $count5 = 0;
             while(count($request["grupos"]) > $count5){
 
                 $grupoActual = $request["grupos"][$count5];
-
+                //dd($grupoActual);
                 
                 //Hacerlo en cada heroe
                 $count6 = 0;
                 while(count($request["heroes"]) > $count6){
 
                     $heroeActual = $request["heroes"][$count6];
-                    
+                    $heroeActual["id"] = $todosLosHeroesUpdateId[$count6];
+                    //dd($grupoActual["id_grupo"]);
                     // Actualizar los datos del héroe actual que pertenezca al grupo actual
                     if(
                         PartyGh::where('grupo_party_gh' , $grupoActual["id_grupo"])->where('id' , $heroeActual["id"])->first() != null
                     ){
                         
                         $heroe = PartyGh::where('id_partida_gh' , $id_partida_gloomhaven)->where('id' , $heroeActual["id"])->first();
-
+                        //dd("entro");
                         // Reputacion
                         $heroe->reputacion_party_gh = $grupoActual["reputacion_grupo"];
                         
                         // Logros del grupo
                         $logrosGrupo = [];
-                        $count = 0;
-                        //dd($grupoActual["logros_grupo"]);
-                        foreach($grupoActual["logros_grupo"] as $logro){
-                            
-                            $aux = LogroGrupoGh::select('id')->where('titulo_logro_grupo_gh' , $logro)->first();
-                            
-                            $logrosGrupo[$count] = $aux->id;
-                            $count++;
-                            //dd($logrosGrupo);
-                        }
-                        //dd($count);
                         $logrosHeroe = PartyGh::find($heroe->id);
-                        $logrosHeroe->logrosGrupo()->sync($logrosGrupo);
+
+                        if(empty($grupoActual["logros_grupo"]) || $grupoActual["logros_grupo"][0] === null){
+
+                            $logrosHeroe->logrosGrupo()->detach();
+                
+                        } else{
+                            $count = 0;
+
+                            //dd($grupoActual["logros_grupo"]);
+                            foreach($grupoActual["logros_grupo"] as $logro){
+                                
+                                $aux = LogroGrupoGh::select('id')->where('titulo_logro_grupo_gh' , $logro)->first();
+                                
+                                $logrosGrupo[$count] = $aux->id;
+                                $count++;
+                               
+                                
+                                $logrosHeroe->logrosGrupo()->sync($logrosGrupo);
+                            }
+                        }
+                        
+                        //dd($count);
+                        
                         //dd("g2");
                         $heroe->save();
                     }
@@ -814,6 +852,7 @@ class GloomhavenPartidaController extends Controller
                     //dd($count5);
                     $count6++;
                 }
+                
                 
                 //dd("g2");
                 $count5++;
@@ -832,7 +871,7 @@ class GloomhavenPartidaController extends Controller
 
 
 
-    public function actualizarHeroePartidaDescent($heroeActual, $id_partida_gloomhaven){
+    public function actualizarHeroePartidaGloomhaven($heroeActual, $id_partida_gloomhaven){
         
         $respuesta = new Respuesta();
         $comprobaciones = new Comprobaciones();
@@ -854,16 +893,17 @@ class GloomhavenPartidaController extends Controller
         
         // 3- Obtener información del héroe
         // habilidades_clase [], equipo_heroe [], id_heroe_dc
+
+        $misionPersonalId = MisionPersonalGh::select('id')->where('nombre_mision_personal_gh', $heroeActual["mision_personal_gh"])->first(); 
         
         $heroe->grupo_party_gh = $heroeActual["grupo_party_gh"];
-        $heroe->id_heroe_gh = $heroeActual["id_heroe_gh"];
         $heroe->id_heroe_gh = $heroeActual["id_heroe_gh"];
         $heroe->nombre_party_gh = $heroeActual["nombre_party_gh"];
         $heroe->experiencia_party_gh = $heroeActual["experiencia_party_gh"];
         //$heroe->reputacion_party_gh = $heroeActual["reputacion_party_gh"];
         $heroe->oro_party_gh = $heroeActual["oro_party_gh"];
         $heroe->marcas_party_gh = $heroeActual["marcas_party_gh"];
-        $heroe->id_mision_personal_gh = $heroeActual["id_mision_personal_gh"];
+        $heroe->id_mision_personal_gh = $misionPersonalId->id;
 
         // LA REPUTACION DEPENDE DEL GRUPO, REVISAD
         
@@ -879,7 +919,7 @@ class GloomhavenPartidaController extends Controller
         $periciasNuevas = [];
         
         // Habilidades del heroe
-        if(empty($heroeActual["habilidades_nuevas"])){
+        if( empty($heroeActual["habilidades_nuevas"]) || $heroeActual["habilidades_nuevas"][0] === null){
 
             $habilidadesHeroe->habilidades()->detach();
 
@@ -900,7 +940,7 @@ class GloomhavenPartidaController extends Controller
         
 
         // Equipo del heroe
-        if(empty($heroeActual["equipo_nuevo"])){
+        if(empty($heroeActual["equipo_nuevo"]) || $heroeActual["equipo_nuevo"][0] === null){
 
             $equipoHeroe->equipamientos()->detach();
 
@@ -921,7 +961,7 @@ class GloomhavenPartidaController extends Controller
         
 
         // Pericias del heroe
-        if(empty($heroeActual["pericias_nuevas"])){
+        if(empty($heroeActual["pericias_nuevas"]) || $heroeActual["pericias_nuevas"][0] === null){
 
             $periciasHeroe->pericias()->detach();
 

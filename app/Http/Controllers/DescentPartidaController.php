@@ -54,7 +54,7 @@ class DescentPartidaController extends Controller
             $descent->save();
              
              
-            $this->crearHeroePartidaDescent($descent->id);
+            $this->crearHeroePartidaDescent($descent->id_partida_general);
 
             $respuesta->setRespuestaExito($respuesta, $partida);
 
@@ -66,15 +66,15 @@ class DescentPartidaController extends Controller
         return response()->json($respuesta);
     }
 
-    public function crearHeroePartidaDescent($id_partida){
+    public function crearHeroePartidaDescent($id_partida_general){
 
         $respuesta = new Respuesta();
 
         try{
-            $aux_partida = Descent::select('id')->where('id_partida_general', $id_partida)->first();
-            $id_partida_descent = $aux_partida->id;
+            //$aux_partida = Descent::select('id')->where('id_partida_general', $id_partida)->first();
+            //$id_partida_descent = $aux_partida->id;
 
-            $partidaDescent = Descent::find($id_partida_descent);
+            $partidaDescent = Descent::where('id_partida_general', $id_partida_general)->first();
             $maximodeHeroes = PartyDc::where('id_partida_dc' , $partidaDescent->id)->get();
 
             if($maximodeHeroes->count() >= 4){
@@ -376,13 +376,14 @@ class DescentPartidaController extends Controller
         $respuesta = new Respuesta();
 
         try{  
-                $misionList = HeroeDc::select('nombre_heroe_dc')->get();    
+                $misionList = HeroeDc::get();    
                 $respuesta->setRespuestaExito($respuesta, $misionList);
                 
                 $count3 = 0;
                 foreach($misionList as $lista){
                     //dd($carta->nombre_carta);
-                    $misionListaFinal[$count3] = $lista->nombre_heroe_dc;
+                    $misionListaFinal[$count3][0] = $lista->id;
+                    $misionListaFinal[$count3][1] = $lista->nombre_heroe_dc;
                     $count3++;
                 }
                 $respuesta->setRespuestaExito($respuesta, $misionListaFinal);
@@ -531,7 +532,7 @@ class DescentPartidaController extends Controller
         $id_partida_descent = $aux_partida->id;
 
         $partidaDescent = Descent::find($id_partida_descent);
-
+        //dd($partidaDescent->id);
         // Usuario con sesión iniciada posee la partida
         if ($comprobaciones->checkActualUserIsUser() 
         && ($comprobaciones->partidaPerteneceUsuarioActual($partidaDescent->id_partida_general))){
@@ -595,6 +596,26 @@ class DescentPartidaController extends Controller
                 }
                 $count3++;
             }
+
+
+            // Buscar los ID de los heroes actualizados en los actuales.
+            // Si no se encuentra uno significa que no existia, y por tanto lo debemos crearlo.
+            $count5 = 0;
+            foreach($todosLosHeroesUpdateId as $heroeActualId){
+                
+                if(!in_array($heroeActualId, $todosLosHeroesActualesId)) {
+
+                    $this->crearHeroePartidaDescent($id_partida_descent);
+                    $ultimoHeroe = PartyDc::orderBy('id', 'DESC')->first();
+                    //dd($ultimoHeroe);
+                    $todosLosHeroesUpdateId[$count5] = $ultimoHeroe->id;
+                    
+                }
+                $count5++;
+            }
+            //dd($todosLosHeroesUpdateId);
+//dd("hi");
+
             
      
             $todosLosHeroes = [];
@@ -612,8 +633,11 @@ class DescentPartidaController extends Controller
 
             // -- Los que no han sido borrados existen, y por tanto se van a actualizar
             while($request[$count] != null){
-       
-                $todosLosHeroesId[$count] = $this->actualizarHeroePartidaDescent($request[$count], $id_partida_descent);
+
+                $heroeActual = $request[$count];
+                $heroeActual["id"] = $todosLosHeroesUpdateId[$count];
+
+                $todosLosHeroesId[$count] = $this->actualizarHeroePartidaDescent($heroeActual, $id_partida_descent);
                 $count++;
             }
 
@@ -645,11 +669,11 @@ class DescentPartidaController extends Controller
             $heroe = PartyDc::where('id_partida_dc' , $id_partida_descent)->where('id' , $id_heroe)->first();
             
             //dd($heroe);
-        
+            //dd($heroeActual);
         // 3- Obtener información del héroe
         // habilidades_clase [], equipo_heroe [], id_heroe_dc
         $heroe->id_heroe_dc = $heroeActual["id_heroe_dc"];
-        
+        //dd("hi");
         
         $habilidadesHeroe = PartyDc::find($heroe->id);
         $equipoHeroe = PartyDc::find($heroe->id);
@@ -658,16 +682,18 @@ class DescentPartidaController extends Controller
         // Habilidades del heroe
         
         
-        if(empty($heroeActual["habilidades_clase"])){
+        
+        if(empty($heroeActual["habilidades_clase"]) || $heroeActual["habilidades_clase"][0] === null){
 
             $habilidadesHeroe->clases()->detach();
 
         } else{
-            
+                 
             $count2 = 0;
             foreach($heroeActual["habilidades_clase"] as $habilidadNueva){
                 
                 $aux = ClaseDc::select('id')->where('nombre_clase_dc' , $habilidadNueva)->first();
+                
                 
                 $habilidadesNuevas[$count2] = $aux->id;
                 $count2++;
@@ -680,7 +706,7 @@ class DescentPartidaController extends Controller
         // Equipo del heroe
         
 
-        if(empty($heroeActual["equipo_heroe"])){
+        if(empty($heroeActual["equipo_heroe"]) || $heroeActual["equipo_heroe"][0] === null){
 
             $equipoHeroe->equipamientos()->detach();
 

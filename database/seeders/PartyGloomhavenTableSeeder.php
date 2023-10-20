@@ -67,5 +67,18 @@ class PartyGloomhavenTableSeeder extends Seeder
             "id_mision_personal_gh"=>"4",
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
+
+        DB::table('party_ghs')->insert([
+            "nombre_party_gh"=>"Heroe 4", 
+            "experiencia_party_gh"=>"130",
+            "reputacion_party_gh"=>"1", 
+            "oro_party_gh"=>"60",
+            "marcas_party_gh"=>"0", 
+            "grupo_party_gh"=>"2",  
+            "id_partida_gh"=>"2",
+            "id_heroe_gh"=>"4", 
+            "id_mision_personal_gh"=>"4",
+        //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
+        ]);
     }
 }
