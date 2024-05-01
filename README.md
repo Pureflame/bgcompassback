@@ -6,4 +6,4 @@ Back-End de mi página web de juegos de mesa BGCompass utilizando Laravel. Enlaz
 Brais Moreno Comesaña
 
 ## Licencia
-No puede usarse comercialmente
+No puede usarse comercialmente.
