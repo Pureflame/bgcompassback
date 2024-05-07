@@ -23,7 +23,7 @@ class AdministradorTableSeeder extends Seeder
             "apellidos_admin"=>"Moreno",
             "contrasenha_admin"=>Hash::make("Secret0*32"),
             "correo_admin"=>"braisadmin@gmail.com",
-            "telefono_admin"=>"+34698142583",
+            "telefono_admin"=>"+34698123456",
         //  "created_at" => Carbon::now()->format('Y-m-d H:i:s'),
         ]);
 
